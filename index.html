@@ -3,311 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Seoul Trip 2025 🇰🇷</title>
     
     <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg">
+    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts: 圓體字 -->
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+
     <script>
-        // 設定 Tailwind 自定義色系
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        milk: { 50: '#FBF9F4', 100: '#F2ECE0', 200: '#E6DBC4', 300: '#D1BFA0', 400: '#BFA883', 500: '#A68F6B', 600: '#8C7654', 700: '#6B583E' },
-                        autumn: { orange: '#EDA87B', yellow: '#EBCB8B', green: '#A3BE8C', pink: '#D08770', brown: '#B48EAD' }
+                        candy: {
+                            bg: '#FFF9F0',      
+                            pink: '#FF9AA2',    
+                            blue: '#85E3FF',    
+                            mint: '#B5EAD7',    
+                            purple: '#D5AAFF',  
+                            yellow: '#FFDAC1',  
+                            dark: '#6B5B95',    
+                            gray: '#B8B8AA'     
+                        }
                     },
-                    borderRadius: { '4xl': '2rem' }
+                    borderRadius: { '4xl': '2.5rem' },
+                    fontFamily: {
+                        'sans': ['"Varela Round"', '"Noto Sans TC"', 'sans-serif']
+                    }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif; background-color: #FBF9F4; color: #6B583E; background-image: radial-gradient(#E6DBC4 1.5px, transparent 1.5px); background-size: 24px 24px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .nav-card { transition: all 0.3s; transform: scale(0.98); } .nav-card.active { transform: scale(1.05); box-shadow: 0 8px 20px -4px rgba(191, 168, 131, 0.4); border-width: 3px; }
-        .nav-card[data-day="day1"].active { background-color: #FFF8F2; border-color: #EDA87B; color: #BF6A3D; }
-        .nav-card[data-day="day2"].active { background-color: #FFFEF2; border-color: #EBCB8B; color: #A68A4B; }
-        .nav-card[data-day="day3"].active { background-color: #F4F9F2; border-color: #A3BE8C; color: #5F7A4B; }
-        .nav-card[data-day="day4"].active { background-color: #FDF4F2; border-color: #D08770; color: #A65A43; }
-        .nav-card[data-day="day5"].active { background-color: #F7F2F9; border-color: #B48EAD; color: #805A79; }
-        .nav-card[data-type="func"].active { background-color: #F2ECE0; border-color: #BFA883; color: #8C7654; }
-        .page-section { display: none; animation: popIn 0.4s; } .page-section.active { display: block; } @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        .map-link { color: #8C7654; text-decoration: none; border-bottom: 2px dotted #BFA883; padding-bottom: 2px; transition: all 0.2s; font-weight: bold;} .map-link:hover { color: #BFA883; border-bottom-style: solid; }
-        .timeline-item { position: relative; padding-left: 1.5rem; border-left: 3px dotted #E6DBC4; padding-bottom: 1.5rem; } .timeline-item:last-child { border-left: none; padding-bottom: 0; }
-        .timeline-dot { position: absolute; left: -0.6rem; top: 0.2rem; background-color: #FBF9F4; border: 3px solid #BFA883; border-radius: 50%; width: 1rem; height: 1rem; }
-        .transit-info { margin: 0.5rem 0 1rem 0.5rem; background-color: #F2ECE0; border-radius: 1rem; padding: 0.75rem; font-size: 0.85rem; color: #6B583E; display: flex; align-items: center; border: 2px solid #E6DBC4; box-shadow: 2px 2px 0 #E6DBC4;}
-        .transit-icon { background-color: #BFA883; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 0.75rem; flex-shrink: 0; font-size: 0.9rem;}
+        body { 
+            background-color: #FFF9F0; 
+            color: #6B5B95;
+            background-image: 
+                radial-gradient(#B5EAD7 2px, transparent 2px),
+                radial-gradient(#FF9AA2 2px, transparent 2px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 249, 240, 0.9);
+            z-index: -1;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; } 
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 卡片風格 */
+        .card-sticker {
+            background-color: #FFFFFF;
+            border-radius: 1.5rem;
+            box-shadow: 4px 4px 0px rgba(107, 91, 149, 0.1), 0 2px 5px rgba(0,0,0,0.05);
+            border: 3px solid #FFF;
+            transition: transform 0.2s;
+        }
+        .nav-card { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); transform: scale(0.95); border-radius: 1.25rem; background: white; border: 2px solid #F3F0E6; } 
+        .nav-card.active { transform: scale(1.05) translateY(-5px); background-color: #FFF; border-color: #FF9AA2; color: #FF6F61; box-shadow: 0 8px 15px -3px rgba(255, 154, 162, 0.4); }
+        .nav-card.active span.day-label { color: #FF6F61; font-weight: 900; font-size: 1.4rem; }
+
+        .page-section { display: none; animation: popUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); } 
+        .page-section.active { display: block; } 
+        @keyframes popUp { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        .timeline-item { position: relative; padding-left: 3.8rem; border-left: 4px dashed #E2E2E2; padding-bottom: 2.5rem; } 
+        .timeline-item:last-child { border-left: none; padding-bottom: 0; }
+        
+        .time-bubble {
+            position: absolute; left: -1.2rem; top: -0.2rem;
+            background: #FFF;
+            border: 2px solid #B5EAD7;
+            color: #6B5B95;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.3rem 0.6rem;
+            border-radius: 1rem;
+            box-shadow: 2px 2px 0 #B5EAD7;
+            z-index: 5;
+            min-width: 3.5rem;
+            text-align: center;
+        }
+
+        .transit-info { 
+            background: #F0F9FF; 
+            border-radius: 1.5rem; padding: 1rem; 
+            border: 2px dashed #85E3FF; 
+            display: flex; align-items: center; margin-bottom: 1.5rem; 
+            box-shadow: 4px 4px 0 #85E3FF; 
+            transform: rotate(-1deg);
+        }
+        
+        .map-link { color: #FF9AA2; border-bottom: 3px dotted #FF9AA2; font-weight: 800; transition: all 0.2s; }
+        .map-link:hover { color: #FF6F61; border-bottom-style: solid; }
+        
+        .bottom-nav-item { color: #C4C4C4; transition: all 0.3s; }
+        .bottom-nav-item.active { color: #6B5B95; transform: translateY(-8px); }
+        .bottom-nav-item.active .icon-box { 
+            background: linear-gradient(135deg, #FF9AA2 0%, #FFB7B2 100%); 
+            color: white; 
+            box-shadow: 0 6px 15px rgba(255, 154, 162, 0.5); 
+            transform: scale(1.2) rotate(-5deg);
+        }
+        
+        .check-item { transition: all 0.3s; border: 2px solid #F5F5F5; background-color: #FFF; border-radius: 1.2rem; margin-bottom: 0.8rem; }
+        .check-item:active { transform: scale(0.98); }
+        .check-item.checked { opacity: 0.6; background-color: #FAFAFA; border-color: transparent; }
+        .check-item.checked span { text-decoration: line-through; color: #CCC; }
+        .check-item i.fa-check-circle { display: none; }
+        .check-item.checked i.fa-check-circle { display: inline-block; color: #B5EAD7; font-size: 1.4rem; }
+        .check-item.checked i.fa-circle { display: none; }
+
+        input { border: 2px solid #EEE; transition: all 0.3s; border-radius: 1rem; }
+        input:focus { border-color: #FFDAC1; box-shadow: 0 0 0 4px rgba(255, 218, 193, 0.3); outline: none; }
+
         padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
-        /* 店家詳細資訊小卡樣式 */
-        .spot-detail { font-size: 0.75rem; color: #8C7654; background-color: #FBF9F4; border-radius: 0.75rem; padding: 0.5rem 0.75rem; margin-top: 0.5rem; border: 2px solid #E6DBC4; }
-        .spot-detail i { width: 1.2rem; text-align: center; margin-right: 0.25rem; color: #BFA883; }
+        body { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen">
 
-    <div class="bg-milk-200/95 backdrop-blur-md pt-4 pb-4 sticky top-0 z-50 shadow-sm border-b-2 border-milk-300 rounded-b-4xl" style="padding-top: max(1rem, env(safe-area-inset-top));">
-        <h1 class="text-center text-2xl font-black text-milk-700 mb-4 tracking-widest flex justify-center items-center">
-            <i class="fas fa-plane-departure text-autumn-orange mr-2 fa-bounce" style="animation-duration: 3s;"></i>
-            SEOUL <span class="text-milk-400 mx-1">2025</span> TRIP
+    <!-- Header -->
+    <div id="top-header" class="bg-white/80 backdrop-blur-md pt-4 pb-2 sticky top-0 z-40 shadow-sm border-b-4 border-candy-mint rounded-b-[2.5rem]" style="padding-top: max(1rem, env(safe-area-inset-top));">
+        <h1 class="relative text-center text-2xl font-black text-candy-dark mb-4 tracking-widest flex justify-center items-center drop-shadow-sm">
+            <span class="bg-candy-pink text-white w-10 h-10 rounded-full flex items-center justify-center mr-2 shadow-md transform -rotate-12 text-lg"><i class="fas fa-plane"></i></span>
+            SEOUL <span class="text-candy-pink mx-1 font-mono">2025</span>
         </h1>
-        <div class="flex overflow-x-auto no-scrollbar gap-3 px-6 pb-2 md:justify-center">
-            <button onclick="switchPage('day1', this)" data-day="day1" class="nav-card active flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-600">
-                <span class="text-xs font-bold mb-1 text-autumn-orange">12/12(五)</span><span class="font-black text-xl mb-1">D1</span><i class="fas fa-suitcase-rolling text-sm text-autumn-orange/70"></i>
-            </button>
-            <button onclick="switchPage('day2', this)" data-day="day2" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-600">
-                <span class="text-xs font-bold mb-1 text-autumn-yellow">12/13(六)</span><span class="font-black text-xl mb-1">D2</span><i class="fas fa-music text-sm text-autumn-yellow/70"></i>
-            </button>
-            <button onclick="switchPage('day3', this)" data-day="day3" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-600">
-                <span class="text-xs font-bold mb-1 text-autumn-green">12/14(日)</span><span class="font-black text-xl mb-1">D3</span><i class="fas fa-coffee text-sm text-autumn-green/70"></i>
-            </button>
-            <button onclick="switchPage('day4', this)" data-day="day4" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-600">
-                <span class="text-xs font-bold mb-1 text-autumn-pink">12/15(一)</span><span class="font-black text-xl mb-1">D4</span><i class="fas fa-spa text-sm text-autumn-pink/70"></i>
-            </button>
-            <button onclick="switchPage('day5', this)" data-day="day5" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-600">
-                <span class="text-xs font-bold mb-1 text-autumn-brown">12/16(二)</span><span class="font-black text-xl mb-1">D5</span><i class="fas fa-plane-arrival text-sm text-autumn-brown/70"></i>
-            </button>
-            <div class="w-1 h-16 border-l-2 border-dashed border-milk-300 mx-1 self-center flex-shrink-0"></div>
-            <button onclick="switchPage('finance', this)" data-type="func" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-500">
-                <i class="fas fa-coins text-2xl mb-2 text-milk-400"></i><span class="font-bold text-xs">記帳</span>
-            </button>
-            <button onclick="switchPage('tools', this)" data-type="func" class="nav-card flex-shrink-0 w-20 h-24 bg-white border-3 border-milk-200 rounded-3xl flex flex-col items-center justify-center text-milk-500">
-                <i class="fas fa-calculator text-2xl mb-2 text-milk-400"></i><span class="font-bold text-xs">匯率</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="p-4 md:p-8 max-w-2xl mx-auto">
         
-        <div id="page-day1" class="page-section active space-y-6">
-            <div class="p-4 bg-autumn-orange/10 rounded-3xl border-2 border-autumn-orange/30 flex justify-between items-center shadow-sm">
-                <div class="flex items-center"><span class="text-3xl mr-3">🧣</span><div><p class="font-black text-autumn-orange/80">12月首爾：極凍！</p><p class="text-xs text-milk-600 font-bold">-5°C ~ 3°C，請備好羽絨、圍巾、手套。</p></div></div>
-                <a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="text-xs bg-white px-3 py-2 rounded-full text-autumn-orange font-bold shadow-sm hover:shadow-md transition">即時天氣 <i class="fas fa-arrow-right ml-1"></i></a>
-            </div>
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden">
-                <i class="fas fa-map-marked-alt absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i>
-                <h2 class="text-2xl font-black text-autumn-orange mb-6 flex items-center"><span class="bg-autumn-orange/20 p-2 rounded-xl mr-3"><i class="fas fa-plane-arrival text-autumn-orange"></i></span>Day 1: 弘大基地建設</h2>
-                <div class="pl-2">
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #EDA87B;"></div><div class="flex flex-col"><span class="font-black text-lg text-milk-700">12:20 抵達仁川機場 (ICN)</span><span class="text-sm text-milk-500 font-bold">辦理入境、領行李</span></div></div>
-                    <div class="transit-info"><div class="transit-icon"><i class="fas fa-train"></i></div><div class="flex-1"><span class="font-bold block">搭乘 AREX 機場快線 (直達車)</span><div class="flex justify-between text-xs mt-1 font-bold text-milk-500"><span><i class="far fa-clock mr-1"></i>約 43-50 分鐘</span><span><i class="fas fa-coins mr-1"></i>約 9,500₩</span></div></div><i class="fas fa-chevron-right ml-3 text-milk-300"></i><div class="ml-3 font-bold">往 弘大入口站</div></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #EDA87B;"></div><div class="flex flex-col"><span class="font-black text-lg text-milk-700">15:00 <a href="https://asiayo.com/zh-tw/view/kr/seoul/44356/" target="_blank" class="map-link">弘大奧森小屋 (AWESOME HOUSE)</a> Check-in</span><span class="text-sm text-milk-500 font-bold">放置行李，稍作休息 (D1-D3住宿)</span></div></div>
-                    <div class="transit-info"><div class="transit-icon bg-milk-400"><i class="fas fa-walking"></i></div><div class="flex-1 font-bold">步行前往商圈</div></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #EDA87B;"></div><div class="flex flex-col gap-2"><span class="font-black text-lg text-milk-700">16:00 換匯 & <a href="https://map.naver.com/v5/search/홍대걷고싶은거리" target="_blank" class="map-link">弘大商圈<i class="fas fa-map-marker-alt ml-1"></i></a></span><div class="bg-milk-100 p-3 rounded-2xl text-sm font-bold text-milk-600"><i class="fas fa-shopping-bag mr-1 text-autumn-orange"></i> Gentle Monster, Olive Young 旗艦店</div></div></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #EDA87B;"></div><div class="flex flex-col"><span class="font-black text-lg text-milk-700">18:30 晚餐：弘大烤肉</span><span class="text-sm text-milk-500 font-bold">推薦：<a href="https://map.naver.com/v5/search/돼지저금통 홍대" target="_blank" class="map-link">小豬存錢筒<i class="fas fa-map-marker-alt ml-1"></i></a></span></div></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #EDA87B;"></div><span class="font-black text-lg text-milk-700">20:30 散步：<a href="https://map.naver.com/v5/search/연남동 경의선숲길" target="_blank" class="map-link">延南洞京義線林道<i class="fas fa-map-marker-alt ml-1"></i></a></span></div>
-                </div>
-            </div>
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-300 relative overflow-hidden mt-6">
-                <i class="fas fa-clipboard-list absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i>
-                <h2 class="text-2xl font-black text-milk-700 mb-6 flex items-center"><span class="bg-milk-200 p-2 rounded-xl mr-3"><i class="fas fa-exclamation-circle text-autumn-orange"></i></span>行程小提醒與注意事項</h2>
-                <div class="space-y-4 text-milk-700 font-bold">
-                    <div class="bg-milk-50 p-4 rounded-3xl border-2 border-milk-200"><h3 class="font-black text-lg mb-2 text-autumn-green flex items-center"><i class="fas fa-map-marked-alt mr-2"></i> 1. 地圖 APP 必備</h3><p class="text-sm text-milk-600 font-medium mb-1"><i class="fas fa-times-circle text-red-400 mr-1"></i>不要只依賴 Google Maps。</p><p class="text-sm text-milk-600 font-medium"><i class="fas fa-check-circle text-green-400 mr-1"></i>請下載：<strong class="text-milk-700">Naver Map</strong> 或 <strong class="text-milk-700">Kakao Map</strong>。</p></div>
-                    <div class="bg-milk-50 p-4 rounded-3xl border-2 border-milk-200"><h3 class="font-black text-lg mb-2 text-autumn-pink flex items-center"><i class="fas fa-credit-card mr-2"></i> 2. 電子支付與現金</h3><ul class="list-disc list-inside text-sm space-y-1 pl-2 text-milk-600 font-medium"><li><span class="font-bold text-milk-700">刷卡 (推薦)：</span>95%店家可刷卡。建議帶海外回饋高的卡。</li><li><span class="font-bold text-milk-700">現金：</span>少量即可 (儲值 T-money、路邊攤、市場用)。</li></ul></div>
-                    <div class="bg-milk-50 p-4 rounded-3xl border-2 border-milk-200"><h3 class="font-black text-lg mb-2 text-autumn-brown flex items-center"><i class="fas fa-passport mr-2"></i> 3. K-ETA (電子旅行許可)</h3><p class="text-sm text-milk-600 font-medium">目前台灣護照暫時免申請 (至2024年底)。<br><span class="text-autumn-orange font-bold">⚠️ 2025年政策請出發前再次確認。</span>若未延續需於72小時前申請。</p></div>
-                    <div class="bg-milk-50 p-4 rounded-3xl border-2 border-milk-200"><h3 class="font-black text-lg mb-2 text-milk-700 flex items-center"><i class="fas fa-subway mr-2"></i> 4. 機場交通與總結</h3><p class="text-sm text-milk-600 font-medium mb-2">住弘大請搭 <strong class="text-milk-700">AREX 一般列車 (All-Stop)</strong>。可用 T-money 刷進站。</p><div class="bg-milk-200/50 p-3 rounded-2xl text-center text-milk-700 font-black text-sm"><i class="fas fa-thumbs-up text-autumn-orange mr-1"></i> 總結：帶著 T-money (儲值約3萬)，下載好 Naver Map，輕鬆出發！</div></div>
-                </div>
-            </div>
+        <!-- Day Selector -->
+        <div id="day-selector" class="relative flex overflow-x-auto no-scrollbar gap-3 px-4 pb-2 md:justify-center transition-all duration-300">
+            <button onclick="switchDay('day1', this)" data-day="day1" class="nav-card active flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-gray-400 mb-1">12/12</span><span class="font-black text-xl day-label">D1</span>
+            </button>
+            <button onclick="switchDay('day2', this)" data-day="day2" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-gray-400 mb-1">12/13</span><span class="font-black text-xl day-label">D2</span>
+            </button>
+            <button onclick="switchDay('day3', this)" data-day="day3" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-gray-400 mb-1">12/14</span><span class="font-black text-xl day-label">D3</span>
+            </button>
+            <button onclick="switchDay('day4', this)" data-day="day4" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-gray-400 mb-1">12/15</span><span class="font-black text-xl day-label">D4</span>
+            </button>
+            <button onclick="switchDay('day5', this)" data-day="day5" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-gray-400 mb-1">12/16</span><span class="font-black text-xl day-label">D5</span>
+            </button>
         </div>
-
-        <div id="page-day2" class="page-section space-y-6">
-            <div class="p-4 bg-autumn-yellow/10 rounded-3xl border-2 border-autumn-yellow/30 flex justify-between items-center shadow-sm"><div class="flex items-center"><span class="text-3xl mr-3">🎤</span><div><p class="font-black text-autumn-yellow/80">演唱會日！</p><p class="text-xs text-milk-600 font-bold">排隊與散場在戶外，請務必備好暖暖包。</p></div></div><a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="text-xs bg-white px-3 py-2 rounded-full text-autumn-yellow font-bold shadow-sm hover:shadow-md transition">即時天氣 <i class="fas fa-arrow-right ml-1"></i></a></div>
-            <div class="bg-autumn-yellow/20 p-6 rounded-4xl border-3 border-autumn-yellow/50 relative overflow-hidden shadow-sm">
-                <i class="fas fa-exclamation-triangle absolute -right-4 -bottom-6 text-7xl text-autumn-yellow/30 -rotate-12"></i>
-                <h3 class="text-xl font-black text-autumn-yellow/90 mb-4 flex items-center"><i class="fas fa-baseball-ball mr-2"></i> 高尺巨蛋特別注意事項</h3>
-                <ul class="list-disc list-inside text-sm space-y-2 pl-2 text-milk-700 font-bold">
-                    <li><span class="text-autumn-orange">交通：</span>地鐵 1 號線「九一站 (Guil Station)」。</li>
-                    <li><span class="text-autumn-orange">離場 (地鐵)：</span>散場極擁擠。建議避開人潮走至「開峰站」再搭車。</li>
-                    <li class="bg-white/60 p-3 rounded-2xl border-2 border-autumn-yellow/40"><i class="fab fa-uber text-lg mr-1"></i> <span class="text-autumn-orange">離場 (Uber)：</span>散場人多建議直接叫 Uber！您原有的 Uber APP 只要確認<span class="underline decoration-2 decoration-autumn-orange">已綁定海外可刷的信用卡</span>即可直接使用，非常方便，不怕被喊價。</li>
-                    <li><span class="text-autumn-orange">位置：</span>屬首爾市，可用氣候同行卡。</li>
-                </ul>
-            </div>
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-music absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-autumn-yellow mb-6 flex items-center"><span class="bg-autumn-yellow/20 p-2 rounded-xl mr-3"><i class="fas fa-star text-autumn-yellow"></i></span>Day 2: GD 演唱會!!</h2><div class="pl-2"><div class="timeline-item"><div class="timeline-dot" style="border-color: #EBCB8B;"></div><span class="font-black text-lg text-milk-700">09:30 早餐：Egg Drop / Isaac Toast</span></div><div class="transit-info"><div class="transit-icon"><i class="fas fa-train"></i></div><div class="flex-1"><span class="font-bold block">地鐵 2號線 (弘大入口 -> 堂山站) 轉 9號線</span><div class="flex justify-between text-xs mt-1 font-bold text-milk-500"><span><i class="far fa-clock mr-1"></i>約 25 分鐘</span><span><i class="fas fa-coins mr-1"></i>約 1,400₩</span></div></div><i class="fas fa-chevron-right ml-3 text-milk-300"></i><div class="ml-3 font-bold">往 汝矣島站</div></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #EBCB8B;"></div><div class="flex flex-col"><span class="font-black text-lg text-milk-700">10:30 <a href="https://map.naver.com/v5/search/더현대 서울" target="_blank" class="map-link">The Hyundai Seoul<i class="fas fa-map-marker-alt ml-1"></i></a></span><span class="text-sm text-milk-500 font-bold">逛潮牌 & 百貨內午餐</span></div></div><div class="transit-info bg-autumn-yellow/20 border-autumn-yellow/50"><div class="transit-icon bg-autumn-yellow"><i class="fas fa-bus"></i></div><div class="flex-1"><span class="font-bold block text-autumn-yellow/90">⚠️ 提早出發! 搭乘公車/地鐵</span><div class="text-xs mt-1 font-bold text-milk-600">建議用 Naver Map 查當下最快路線 (避開塞車)</div><div class="flex justify-between text-xs mt-1 font-bold text-milk-500"><span><i class="far fa-clock mr-1"></i>預抓 50-60 分鐘</span><span><i class="fas fa-coins mr-1"></i>約 1,500₩</span></div></div><i class="fas fa-chevron-right ml-3 text-milk-300"></i><div class="ml-3 font-bold">往 高尺巨蛋</div></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #EBCB8B;"></div><span class="font-black text-lg text-milk-700">15:00 <a href="https://map.naver.com/v5/search/고척스카이돔" target="_blank" class="map-link">高尺天空巨蛋<i class="fas fa-map-marker-alt ml-1"></i></a> (領票/周邊)</span></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #EBCB8B; background-color: #EBCB8B;"></div><div class="bg-autumn-yellow/20 p-4 rounded-3xl border-2 border-autumn-yellow/50 text-center shadow-sm"><span class="font-black text-xl text-autumn-yellow/90 block mb-1">🎤 18:00 GD 演唱會 START!</span><span class="text-sm font-bold text-milk-600">Enjoy the Show! 🤘</span></div></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #EBCB8B;"></div><div class="flex flex-col pt-4"><span class="font-black text-lg text-milk-700">23:00 弘大宵夜：神仙雪濃湯</span><span class="text-sm text-milk-500 font-bold">散場人多，回程可能需時較長</span></div></div></div></div>
-        </div>
-
-        <div id="page-day3" class="page-section space-y-6">
-            <div class="p-4 bg-autumn-green/10 rounded-3xl border-2 border-autumn-green/30 flex justify-between items-center shadow-sm"><div class="flex items-center"><span class="text-3xl mr-3">👟</span><div><p class="font-black text-autumn-green/80">聖水洞全攻略日</p><p class="text-xs text-milk-600 font-bold">今天行程滿檔，請穿最舒適的鞋子！</p></div></div><a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="text-xs bg-white px-3 py-2 rounded-full text-autumn-green font-bold shadow-sm hover:shadow-md transition">即時天氣<i class="fas fa-arrow-right ml-1"></i></a></div>
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-camera absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-autumn-green mb-6 flex items-center"><span class="bg-autumn-green/20 p-2 rounded-xl mr-3"><i class="fas fa-shoe-prints text-autumn-green"></i></span>Day 3: 聖水洞潮流巡禮</h2>
-                <div class="pl-2">
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div><span class="font-black text-lg text-milk-700">10:00 抵達聖水站 (2號線)</span></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div>
-                        <div class="flex flex-col gap-1"><span class="font-black text-lg text-milk-700">10:30 工業風咖啡廳與排隊鹽麵包</span>
-                            <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600"><span class="text-autumn-green">1️⃣ <a href="https://map.naver.com/v5/search/어니언 성수" target="_blank" class="map-link">Cafe Onion Seongsu</a></span><div class="spot-detail"><i class="far fa-clock"></i>08:00-22:00 | <i class="fas fa-thumbs-up"></i>Pandora's Box麵包</div></div>
-                             <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600 mt-2"><span class="text-autumn-green">2️⃣ <a href="https://map.naver.com/v5/search/자연도소금빵 성수" target="_blank" class="map-link">自然島鹽麵包 (Jayeondo Salt Bread)</a></span><div class="spot-detail"><i class="far fa-clock"></i>09:00-售完為止 | <i class="fas fa-thumbs-up"></i>鹽麵包組(4入) | 註:在Onion附近</div></div>
-                        </div>
-                    </div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div>
-                        <div class="flex flex-col gap-1"><span class="font-black text-lg text-milk-700">11:45 午餐：傳說中的馬鈴薯排骨湯</span><div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600"><span class="text-autumn-green"><a href="https://map.naver.com/v5/search/소문난성수감자탕" target="_blank" class="map-link">Somunnan Seongsu Gamjatang</a></span><div class="spot-detail"><i class="far fa-clock"></i>24小時營業 | <i class="fas fa-thumbs-up"></i>馬鈴薯排骨湯(감자탕) | 註:人氣店建議早點到</div></div></div>
-                    </div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div>
-                        <div class="flex flex-col gap-1"><span class="font-black text-lg text-milk-700">13:15 潮流品牌巡禮 Part 1</span>
-                            <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600 space-y-2">
-                                <div><span class="text-autumn-green">1️⃣ <a href="https://map.naver.com/v5/search/디올 성수" target="_blank" class="map-link">Dior 聖水</a></span> (知名拍照點)</div>
-                                <div>
-                                    <span class="text-autumn-green">2️⃣ <a href="https://map.naver.com/v5/search/휴먼메이드 성수" target="_blank" class="map-link">Human Made Seongsu</a></span>
-                                    <div class="spot-detail"><i class="far fa-clock"></i>11:00-21:00 | <i class="fas fa-heart"></i>潮流愛心、服飾配件</div>
-                                    <div class="mt-2 bg-blue-50 border-2 border-blue-200 p-2 rounded-xl text-blue-800 text-xs flex items-center"><i class="fas fa-coffee mr-1"></i><span class="font-black">Tip:</span> 店內有 Blue Bottle 藍瓶咖啡可以品嚐喔！</div>
-                                </div>
-                                <div><span class="text-autumn-green">3️⃣ <a href="https://map.naver.com/v5/search/무신사 스탠다드 성수" target="_blank" class="map-link">Musinsa Standard Seongsu</a></span><div class="spot-detail"><i class="far fa-clock"></i>11:00-21:00 | <i class="fas fa-tshirt"></i>韓國國民平價服飾</div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div>
-                        <div class="flex flex-col gap-1"><span class="font-black text-lg text-milk-700">15:30 潮流品牌巡禮 Part 2</span>
-                             <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600 space-y-2">
-                                <div><span class="text-autumn-green">1️⃣ <a href="https://map.naver.com/v5/search/젠틀몬스터 성수" target="_blank" class="map-link">Gentle Monster</a></span><div class="spot-detail"><i class="far fa-clock"></i>約11:00-21:00 | <i class="fas fa-glasses"></i>特色墨鏡、裝置藝術</div></div>
-                                 <div><span class="text-autumn-green">2️⃣ <a href="https://map.naver.com/v5/search/탬버린즈 성수" target="_blank" class="map-link">Tamburins</a></span><div class="spot-detail"><i class="far fa-clock"></i>約11:00-21:00 | <i class="fas fa-pump-soap"></i>香水護手霜、固體香膏</div></div>
-                                <div><span class="text-autumn-green">3️⃣ <a href="https://map.naver.com/v5/search/이미스 성수" target="_blank" class="map-link">emis</a></span><div class="spot-detail"><i class="far fa-clock"></i>約12:00-20:00 | <i class="fas fa-hat-cowboy"></i>棒球帽、帆布包</div></div>
-                                 <div><span class="text-autumn-green">4️⃣ <a href="https://map.naver.com/v5/search/젤리캣 성수" target="_blank" class="map-link">Jellycat (新開幕!)</a></span><div class="spot-detail"><i class="fas fa-cat"></i>超人氣絨毛玩偶</div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="transit-info"><div class="transit-icon" style="background-color: #A3BE8C;"><i class="fas fa-walking"></i></div><div class="flex-1 font-bold">前往晚餐地點 (在聖水站附近)</div></div>
-                    <div class="timeline-item"><div class="timeline-dot" style="border-color: #A3BE8C;"></div>
-                        <div class="flex flex-col gap-1"><span class="font-black text-lg text-milk-700">17:30 晚餐：米其林必比登烤肉</span>
-                             <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600"><span class="text-autumn-green"><a href="https://map.naver.com/v5/search/꿉당 성수점" target="_blank" class="map-link">烤黨 聖水店 (Kkubdang)</a></span><div class="spot-detail"><i class="far fa-clock"></i>平日16:30/假日12:00開始 | <i class="fas fa-drumstick-bite"></i>KOKUMI脥心肉(목살) | <span class="text-red-400 font-bold">註:極熱門需現場登記候位</span></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-day4" class="page-section space-y-6">
-            <div class="p-4 bg-autumn-pink/10 rounded-3xl border-2 border-autumn-pink/30 flex justify-between items-center shadow-sm"><div class="flex items-center"><span class="text-3xl mr-3">🧴</span><div><p class="font-black text-autumn-pink/80">醫美保養日</p><p class="text-xs text-milk-600 font-bold">天氣乾燥寒冷，術後請加強保濕與防曬。</p></div></div><a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="text-xs bg-white px-3 py-2 rounded-full text-autumn-pink font-bold shadow-sm hover:shadow-md transition">即時天氣<i class="fas fa-arrow-right ml-1"></i></a></div>
-            
-            <div class="bg-white p-6 rounded-4xl shadow-sm border-3 border-milk-200 relative overflow-hidden">
-                <h3 class="text-xl font-black text-autumn-pink mb-4 flex items-center"><i class="fas fa-clinic-medical mr-2"></i> 弘大醫美選手村 (📍推薦選手)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="bg-milk-50 p-3 rounded-2xl border-2 border-milk-200"><div class="font-black text-milk-700 mb-1">Muse Clinic (뮤즈클리닉)</div><div class="text-xs text-milk-600 font-bold">特色: 最有名平價連鎖，堅持只做自己想做的項目。</div></div>
-                    <div class="bg-milk-50 p-3 rounded-2xl border-2 border-milk-200"><div class="font-black text-milk-700 mb-1">PPEUM (쁨클리닉)</div><div class="text-xs text-milk-600 font-bold">特色: 裝潢較高級，體驗感比 Muse 好一點，較不擁擠。</div></div>
-                    <div class="bg-milk-50 p-3 rounded-2xl border-2 border-milk-200"><div class="font-black text-milk-700 mb-1">Dayone (데이원클리닉)</div><div class="text-xs text-milk-600 font-bold">特色: 台灣評價不錯，適合想做保養、希望有人引導者。</div></div>
-                    <div class="bg-milk-50 p-3 rounded-2xl border-2 border-milk-200"><div class="font-black text-milk-700 mb-1">Toxnfill (톡스앤필)</div><div class="text-xs text-milk-600 font-bold">特色: 大型連鎖，肉毒玻尿酸起家，品質控管穩定。</div></div>
-                </div>
-            </div>
-            
-            <div class="bg-autumn-pink/10 p-6 rounded-4xl border-3 border-autumn-pink/40 relative overflow-hidden shadow-sm">
-                 <h3 class="text-xl font-black text-autumn-pink mb-4 flex items-center"><i class="fas fa-lightbulb mr-2"></i> 💡 醫美教戰守則 (防雷省錢)</h3>
-                 <div class="space-y-3 font-bold text-milk-700">
-                    <div>
-                        <span class="bg-autumn-pink text-white text-xs px-2 py-1 rounded-full mb-1 inline-block">鎖定項目 (護膚推薦)</span>
-                        <ul class="list-disc list-inside text-sm space-y-1 pl-1 text-milk-600">
-                            <li><span class="text-milk-700">LDM (水滴提升)：</span>強效保濕鎮定，適合痘痘/敏感肌，不痛，做完臉很亮。</li>
-                            <li><span class="text-milk-700">Aqua Peel (韓式水飛梭)：</span>清粉刺、深層清潔。</li>
-                            <li><span class="text-milk-700">Rejuran/Exosome (麗珠蘭/外泌體)：</span>預算夠可選，韓國最紅皮膚營養針(比台灣便宜很多)。</li>
-                        </ul>
-                    </div>
-                    <div class="flex items-start bg-white/60 p-3 rounded-2xl border-2 border-autumn-pink/30">
-                        <i class="fas fa-coins text-autumn-pink mt-1 mr-2"></i>
-                        <div class="text-sm"><span class="text-milk-700">退稅提醒：</span>正規診所單筆滿 3 萬韓元都可退稅，記得帶護照。</div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-spa absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-autumn-pink mb-6 flex items-center"><span class="bg-autumn-pink/20 p-2 rounded-xl mr-3"><i class="fas fa-magic text-autumn-pink"></i></span>Day 4: 變漂亮與Dosan散策</h2><div class="pl-2"><div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><span class="font-black text-lg text-milk-700">10:00 Check-out (行李寄放民宿)</span></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><div class="flex flex-col"><span class="font-black text-lg text-milk-700">10:30 弘大醫美 (預約制)</span><span class="text-sm text-milk-500 font-bold">預計 3 小時 (諮詢/敷麻藥/施作)</span></div></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><span class="font-black text-lg text-milk-700">14:00 午餐：本粥 Bonjuk (術後清淡)</span></div><div class="transit-info"><div class="transit-icon bg-autumn-pink"><i class="fas fa-suitcase"></i></div><div class="flex-1 font-bold">拉行李移動 (視距離步行或叫車)</div></div>
-            <div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><span class="font-black text-lg text-milk-700">15:00 Check-in <a href="https://www.agoda.com/zh-tw/nabi-hostel-hongdae/hotel/seoul-kr.html?cid=1844104&ds=IxwpPggMqZ6J5bla" target="_blank" class="map-link">弘大那比青年旅館 (Nabi Hostel)</a></span></div>
-            
-            <div class="transit-info bg-milk-100 border-milk-300"><div class="transit-icon bg-milk-500"><i class="fas fa-map-signs"></i></div><div class="flex-1"><span class="font-bold block text-milk-700">路線攻略：前往新沙洞/島山公園</span><div class="text-xs mt-1 font-bold text-milk-600">弘大入口站(2號線) → 乙支路三街(轉3號線) → 新沙站或狎鷗亭站下車。<br>(*建議使用 Naver Map 導航最準確)</div></div></div>
-
-            <div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><div class="flex flex-col gap-2"><span class="font-black text-lg text-milk-700">16:30 島山公園潮流散策 (Dosan)</span>
-                <div class="bg-milk-100 p-3 rounded-2xl font-bold text-milk-600 space-y-2">
-                    <div><span class="text-autumn-pink">1️⃣ <a href="https://map.naver.com/v5/search/휴먼메이드 도산" target="_blank" class="map-link">Human Made Dosan</a></span><div class="spot-detail"><i class="fas fa-map-marker-alt"></i>介於「狎鷗亭羅德奧站」與「新沙站」中間，靠近 Stüssy 首爾店、Supreme 和 Haus Dosan。</div></div>
-                    <div><span class="text-autumn-pink">💡 周邊必逛：</span>Supreme, Stüssy, Haus Dosan (Gentle Monster旗艦店) 都在附近，非常好逛！</div>
-                </div></div></div>
-            <div class="timeline-item"><div class="timeline-dot" style="border-color: #D08770;"></div><span class="font-black text-lg text-milk-700">19:30 晚餐：<a href="https://map.naver.com/v5/search/홍일품간장게장 홍대점" target="_blank" class="map-link">弘益醬蟹<i class="fas fa-map-marker-alt ml-1"></i></a> 或 一隻雞 (回弘大吃)</span></div></div></div>
-        </div>
-
-        <div id="page-day5" class="page-section space-y-6">
-            <div class="p-4 bg-autumn-brown/10 rounded-3xl border-2 border-autumn-brown/30 flex justify-between items-center shadow-sm"><div class="flex items-center"><span class="text-3xl mr-3">✈️</span><div><p class="font-black text-autumn-brown/80">回程日</p><p class="text-xs text-milk-600 font-bold">機場內溫暖，建議採洋蔥式穿搭以便穿脫。</p></div></div><a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="text-xs bg-white px-3 py-2 rounded-full text-autumn-brown font-bold shadow-sm hover:shadow-md transition">即時天氣<i class="fas fa-arrow-right ml-1"></i></a></div>
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-plane-departure absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-autumn-brown mb-6 flex items-center"><span class="bg-autumn-brown/20 p-2 rounded-xl mr-3"><i class="fas fa-home text-autumn-brown"></i></span>Day 5: 滿載而歸</h2><div class="pl-2"><div class="timeline-item"><div class="timeline-dot" style="border-color: #B48EAD;"></div><span class="font-black text-lg text-milk-700">10:00 Check-out</span></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #B48EAD;"></div><span class="font-black text-lg text-milk-700">10:30 弘大最後早午餐 / 拍貼機留念</span></div><div class="transit-info bg-autumn-brown/20 border-autumn-brown/50"><div class="transit-icon bg-autumn-brown"><i class="fas fa-train"></i></div><div class="flex-1"><span class="font-bold block text-autumn-brown/90">⚠️ 12:30 出發前往機場! (AREX)</span><div class="text-xs mt-1 font-bold text-milk-600">飛機起飛前 3-4 小時要出發</div><div class="flex justify-between text-xs mt-1 font-bold text-milk-500"><span><i class="far fa-clock mr-1"></i>約 50 分鐘</span><span><i class="fas fa-coins mr-1"></i>約 9,500₩</span></div></div><i class="fas fa-chevron-right ml-3 text-milk-300"></i><div class="ml-3 font-bold">往 仁川機場</div></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #B48EAD;"></div><span class="font-black text-lg text-milk-700">13:30 抵達機場、退稅、Check-in</span></div><div class="timeline-item"><div class="timeline-dot" style="border-color: #B48EAD; background-color: #B48EAD;"></div><div class="bg-autumn-brown/20 p-4 rounded-3xl border-2 border-autumn-brown/50 text-center shadow-sm"><span class="font-black text-xl text-autumn-brown/90 block mb-1">✈️ 16:40 起飛</span><span class="text-sm font-bold text-milk-600">Bye Seoul! 下次見!</span></div></div></div></div>
-        </div>
-
-        <div id="page-finance" class="page-section space-y-6">
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-coins absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-milk-700 mb-6 flex items-center"><span class="bg-milk-200 p-2 rounded-xl mr-3"><i class="fas fa-wallet text-milk-500"></i></span>共同記帳助手</h2><p class="text-sm font-bold text-milk-500 mb-6 bg-milk-100 p-3 rounded-2xl text-center"><i class="fas fa-info-circle mr-1"></i> 資料將直接儲存至您的 Google 試算表。</p><form id="expense-form" class="space-y-5 font-bold"><div><label class="block text-sm text-milk-600 mb-2 pl-1">消費項目 <i class="fas fa-pen text-xs ml-1 text-milk-300"></i></label><input type="text" id="item" placeholder="例如：晚餐烤肉" class="w-full p-4 bg-milk-50 border-2 border-milk-200 rounded-3xl focus:ring-4 focus:ring-milk-200 focus:border-milk-400 transition text-milk-800 shadow-sm placeholder-milk-300" required></div><div><label class="block text-sm text-milk-600 mb-2 pl-1">金額 (KRW) <i class="fas fa-won-sign text-xs ml-1 text-milk-300"></i></label><input type="number" id="cost" placeholder="輸入韓元金額" class="w-full p-4 bg-milk-50 border-2 border-milk-200 rounded-3xl focus:ring-4 focus:ring-milk-200 focus:border-milk-400 transition text-xl font-black text-milk-800 shadow-sm placeholder-milk-300" required><div id="calculated-twd-display" class="text-sm text-milk-500 font-bold mt-2 pl-2 hidden"><i class="fas fa-calculator mr-1"></i> 約 TWD <span id="twd-amount" class="text-milk-700 text-lg">0</span></div></div><div><label class="block text-sm text-milk-600 mb-3 pl-1">付款人 <i class="fas fa-user-friends text-xs ml-1 text-milk-300"></i></label><div class="grid grid-cols-3 gap-3"><label class="cursor-pointer"><input type="radio" name="payer" value="Honnie" class="peer sr-only" required><div class="p-3 text-center bg-milk-50 border-2 border-milk-200 rounded-3xl peer-checked:bg-milk-200 peer-checked:text-milk-700 peer-checked:border-milk-400 transition text-milk-500 font-black shadow-sm hover:bg-milk-100">Honnie</div></label><label class="cursor-pointer"><input type="radio" name="payer" value="Emily" class="peer sr-only"><div class="p-3 text-center bg-milk-50 border-2 border-milk-200 rounded-3xl peer-checked:bg-milk-200 peer-checked:text-milk-700 peer-checked:border-milk-400 transition text-milk-500 font-black shadow-sm hover:bg-milk-100">Emily</div></label><label class="cursor-pointer"><input type="radio" name="payer" value="公費" class="peer sr-only" checked><div class="p-3 text-center bg-milk-50 border-2 border-milk-200 rounded-3xl peer-checked:bg-milk-200 peer-checked:text-milk-700 peer-checked:border-milk-400 transition text-milk-500 font-black shadow-sm hover:bg-milk-100">公費</div></label></div></div><div><label class="block text-sm text-milk-600 mb-2 pl-1">備註 (選填) <i class="far fa-comment-dots text-xs ml-1 text-milk-300"></i></label><input type="text" id="note" placeholder="..." class="w-full p-4 bg-milk-50 border-2 border-milk-200 rounded-3xl focus:ring-4 focus:ring-milk-200 focus:border-milk-400 transition text-milk-800 shadow-sm placeholder-milk-300"></div><button type="submit" id="submit-btn" class="w-full bg-milk-400 text-white p-4 rounded-3xl font-black text-lg hover:bg-milk-500 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition flex justify-center items-center shadow-[4px_4px_0_#E6DBC4] border-2 border-milk-500"><span id="btn-text">送出記帳 <i class="fas fa-paper-plane ml-2"></i></span><span id="btn-loading" style="display: none;"><i class="fas fa-circle-notch fa-spin mr-2"></i> 處理中...</span></button></form></div><div id="message-area" class="hidden p-4 rounded-3xl text-center text-sm font-black transition-all shadow-sm border-3 transform scale-95"></div><div class="text-center mt-6"><a href="https://docs.google.com/spreadsheets/u/0/" target="_blank" class="text-milk-500 text-sm font-bold underline hover:text-milk-700 transition bg-white px-4 py-2 rounded-full shadow-sm"><i class="fas fa-table mr-1"></i> 查看 Google 試算表</a></div>
-        </div>
-        <div id="page-tools" class="page-section space-y-6">
-            <div class="bg-white p-6 md:p-8 rounded-4xl shadow-[4px_4px_0_#E6DBC4] border-3 border-milk-200 relative overflow-hidden"><i class="fas fa-calculator absolute -right-6 -bottom-6 text-8xl text-milk-100/50 -rotate-12"></i><h2 class="text-2xl font-black text-milk-700 mb-6 flex items-center"><span class="bg-milk-200 p-2 rounded-xl mr-3"><i class="fas fa-exchange-alt text-milk-500"></i></span>匯率試算</h2><div class="mb-6 bg-milk-100 p-4 rounded-3xl border-3 border-milk-200 text-center shadow-sm relative"><span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-milk-400 text-white text-xs font-black px-3 py-1 rounded-full">設定匯率</span><label class="text-sm text-milk-600 font-bold block mb-2">目前匯率 (1 TWD = ? KRW)</label>
-                <div class="relative"><input type="number" id="rate-input" value="42.5" class="w-full p-2 bg-transparent text-center font-black text-3xl focus:outline-none text-milk-700 border-b-4 border-milk-300 border-dashed focus:border-solid transition pr-10"><button onclick="fetchLiveRate()" class="absolute right-2 top-1/2 -translate-y-1/2 text-milk-400 hover:text-milk-600 transition p-2"><i class="fas fa-sync-alt" id="rate-loading"></i></button></div>
-                <p class="text-xs text-center mt-2 text-milk-500 font-bold">點擊圖示更新即時匯率</p>
-            </div><div class="space-y-4"><div class="bg-milk-50 p-5 rounded-3xl border-3 border-milk-200 shadow-sm group focus-within:border-milk-400 transition"><label class="text-xs text-milk-500 font-bold block mb-1 pl-1">🇰🇷 韓元 KRW (輸入)</label><input type="number" id="krw-input" class="w-full p-1 bg-transparent text-3xl font-black focus:outline-none text-milk-800 placeholder-milk-300" placeholder="0"></div><div class="flex justify-center text-milk-300 text-2xl my-2"><i class="fas fa-arrow-down fa-bounce" style="animation-duration: 2s;"></i></div><div class="bg-milk-100 p-5 rounded-3xl border-3 border-milk-300 shadow-sm"><label class="text-xs text-milk-500 font-bold block mb-1 pl-1">🇹🇼 約合台幣 TWD</label><input type="number" id="twd-input" class="w-full p-1 bg-transparent text-3xl font-black focus:outline-none text-milk-600" placeholder="0" readonly></div></div></div>
-        </div>
-
     </div>
+
+    <!-- Main Content -->
+    <div class="p-4 md:p-6 max-w-2xl mx-auto min-h-[60vh]">
+        
+        <!-- Day 1 -->
+        <div id="page-day1" class="page-section active space-y-5">
+            <div id="weather-card-day1" class="card-sticker p-4 bg-gradient-to-r from-orange-50 to-white flex justify-between items-center relative overflow-hidden">
+                <div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day1">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 1 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day1">載入中...</p><div class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day1"></div></div></div>
+                <i class="fas fa-sun absolute -right-6 -bottom-6 text-9xl text-orange-100 opacity-60 rotate-12"></i>
+            </div>
+            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90">
+                <div class="space-y-6 animate-pulse"><div class="h-8 bg-gray-100 rounded-full w-2/3"></div><div class="h-20 bg-gray-50 rounded-2xl"></div><div class="h-20 bg-gray-50 rounded-2xl"></div></div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div id="page-day2" class="page-section space-y-5">
+            <div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day2">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 2 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day2">...</p><div class="bg-yellow-100 text-yellow-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day2"></div></div></div></div>
+            <div id="container-day2" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <!-- Day 3 -->
+        <div id="page-day3" class="page-section space-y-5">
+            <div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day3">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 3 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day3">...</p><div class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day3"></div></div></div></div>
+            <div id="container-day3" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <!-- Day 4 -->
+        <div id="page-day4" class="page-section space-y-5">
+            <div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day4">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 4 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day4">...</p><div class="bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day4"></div></div></div></div>
+            <div id="container-day4" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <!-- Day 5 -->
+        <div id="page-day5" class="page-section space-y-5">
+            <div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day5">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 5 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day5">...</p><div class="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day5"></div></div></div></div>
+            <div id="container-day5" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <!-- Notes -->
+        <div id="page-notes" class="page-section space-y-5">
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-star fa-shake"></i></span>住宿與提醒</h2>
+                <div class="space-y-4 text-gray-600 font-bold text-sm">
+                    <div class="bg-white p-5 rounded-2xl border-2 border-candy-yellow shadow-sm relative overflow-hidden group hover:shadow-md transition">
+                        <div class="absolute top-0 right-0 bg-candy-yellow text-orange-600 text-[10px] px-3 py-1 rounded-bl-xl font-black">住宿 A</div>
+                        <h3 class="font-black text-lg mb-3 text-gray-800 flex items-center"><i class="fas fa-bed mr-2 text-orange-400"></i> 弘大奧森小屋</h3>
+                        <p class="select-all bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs mb-2 text-gray-500"><i class="fas fa-map-pin mr-1"></i> Room203, 82-7, World cup buk-ro 6-gil</p>
+                        <div class="flex gap-2">
+                            <div class="bg-orange-50 flex-1 p-2 rounded-xl text-center border border-orange-100"><span class="block text-[10px] text-orange-400 mb-1">大門</span><span class="font-black text-lg select-all text-gray-700">0001*</span></div>
+                            <div class="bg-orange-50 flex-1 p-2 rounded-xl text-center border border-orange-100"><span class="block text-[10px] text-orange-400 mb-1">203房</span><span class="font-black text-lg select-all text-gray-700">0667*</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border-2 border-candy-pink shadow-sm relative overflow-hidden hover:shadow-md transition">
+                        <div class="absolute top-0 right-0 bg-candy-pink text-white text-[10px] px-3 py-1 rounded-bl-xl font-black">住宿 B</div>
+                        <h3 class="font-black text-lg mb-3 text-gray-800 flex items-center"><i class="fas fa-hotel mr-2 text-candy-pink"></i> 弘大那比青年旅館</h3>
+                        <p class="select-all bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i> 서울 마포구 양화로 177-1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklist -->
+        <div id="page-checklist" class="page-section space-y-5">
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-mint w-12 h-12 flex items-center justify-center rounded-full mr-3 text-green-600 shadow-sm"><i class="fas fa-backpack fa-bounce"></i></span>必備清單</h2>
+                <div class="flex gap-2 mb-6 p-1 bg-white rounded-2xl border-2 border-candy-mint shadow-sm">
+                    <input type="text" id="new-item-input" placeholder="還有什麼要帶的？" class="flex-1 p-3 bg-transparent border-none text-sm font-bold text-gray-700 focus:ring-0">
+                    <button onclick="addCustomItem()" class="bg-candy-mint text-green-700 w-10 h-10 rounded-xl flex items-center justify-center hover:bg-green-200 transition shadow-md m-1"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="mb-3 flex items-center"><span class="bg-candy-blue text-blue-600 text-[10px] font-black px-2 py-1 rounded mr-2">PUBLIC</span> <span class="text-xs font-bold text-gray-400">大家都要帶 (Excel)</span></div>
+                <div id="checklist-excel-container" class="space-y-2 mb-6"></div>
+                <div class="mb-3 flex items-center justify-between"><div class="flex items-center"><span class="bg-candy-purple text-purple-600 text-[10px] font-black px-2 py-1 rounded mr-2">PRIVATE</span> <span class="text-xs font-bold text-gray-400">我的專屬</span></div><i class="fas fa-lock text-gray-300 text-xs"></i></div>
+                <div id="checklist-custom-container" class="space-y-2"></div>
+                <div class="flex justify-center mt-8">
+                    <button onclick="resetChecklist()" class="text-xs text-gray-400 font-bold hover:text-red-400 transition bg-gray-50 px-4 py-2 rounded-full border border-gray-200"><i class="fas fa-trash-restore mr-1"></i> 重置打勾</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Finance -->
+        <div id="page-finance" class="page-section space-y-5">
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-piggy-bank fa-bounce"></i></span>記帳小幫手</h2>
+                <form id="expense-form" class="space-y-5 font-bold">
+                    <div><label class="block text-xs text-gray-400 mb-1 pl-1 uppercase tracking-wider font-black">Item Name</label><div class="relative"><i class="fas fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i><input type="text" id="item" placeholder="買了什麼？" class="w-full p-4 pl-10 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-candy-yellow transition text-gray-700" required></div></div>
+                    <div><label class="block text-xs text-gray-400 mb-1 pl-1 uppercase tracking-wider font-black">Amount (KRW)</label><div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 font-black">₩</span><input type="number" id="cost" placeholder="0" class="w-full p-4 pl-10 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-candy-yellow text-xl font-black text-gray-700" required oninput="updateExpensePreview()"></div><div id="expense-twd-preview" class="text-xs text-orange-500 font-bold mt-2 ml-1 hidden bg-candy-yellow/30 inline-block px-3 py-1 rounded-full border border-candy-yellow"><i class="fas fa-equals mr-1"></i> 台幣約 <span id="preview-amount">0</span> 元</div></div>
+                    <div><label class="block text-xs text-gray-400 mb-2 pl-1 uppercase tracking-wider font-black">Paid By</label><div class="grid grid-cols-3 gap-3">
+                        <label class="cursor-pointer relative group"><input type="radio" name="payer" value="Honnie" class="peer sr-only" required><div class="p-3 text-center bg-gray-50 border-2 border-gray-100 rounded-2xl peer-checked:bg-candy-yellow peer-checked:border-orange-200 peer-checked:text-orange-600 transition text-gray-400 font-black group-hover:bg-white group-hover:shadow-sm"><div class="mb-1"><i class="fas fa-user-circle text-lg"></i></div>Honnie</div></label>
+                        <label class="cursor-pointer relative group"><input type="radio" name="payer" value="Emily" class="peer sr-only"><div class="p-3 text-center bg-gray-50 border-2 border-gray-100 rounded-2xl peer-checked:bg-candy-pink peer-checked:border-pink-200 peer-checked:text-pink-600 transition text-gray-400 font-black group-hover:bg-white group-hover:shadow-sm"><div class="mb-1"><i class="fas fa-user-circle text-lg"></i></div>Emily</div></label>
+                        <label class="cursor-pointer relative group"><input type="radio" name="payer" value="公費" class="peer sr-only" checked><div class="p-3 text-center bg-gray-50 border-2 border-gray-100 rounded-2xl peer-checked:bg-candy-blue peer-checked:border-blue-200 peer-checked:text-blue-600 transition text-gray-400 font-black group-hover:bg-white group-hover:shadow-sm"><div class="mb-1"><i class="fas fa-users text-lg"></i></div>公費</div></label>
+                    </div></div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-candy-yellow to-orange-300 text-white p-4 rounded-2xl font-black text-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition flex justify-center items-center shadow-md shadow-orange-100"><i class="fas fa-paper-plane mr-2"></i> 記一筆</button>
+                </form>
+            </div>
+            <div id="message-area" class="hidden p-4 rounded-2xl text-center text-sm font-bold transition-all shadow-sm border mt-4"></div>
+        </div>
+
+        <!-- Tools -->
+        <div id="page-tools" class="page-section space-y-5">
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-blue w-12 h-12 flex items-center justify-center rounded-full mr-3 text-blue-600 shadow-sm"><i class="fas fa-calculator fa-flip" style="--fa-animation-duration: 3s;"></i></span>匯率換算</h2>
+                <div class="bg-white p-6 rounded-[2rem] border-2 border-gray-100 shadow-inner mb-6 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-50 rounded-full blur-xl"></div>
+                    <label class="text-xs text-gray-400 font-black block mb-2 text-center uppercase tracking-widest">Exchange Rate</label>
+                    <div class="flex items-center justify-center"><span class="text-gray-400 font-bold mr-2">1 TWD ≈</span><input type="number" id="rate-input" value="42.5" class="w-24 bg-transparent text-center font-black text-3xl text-blue-500 border-b-2 border-blue-200 focus:border-blue-500 focus:outline-none"><span class="text-gray-400 font-bold ml-2">KRW</span></div>
+                    <div class="text-center mt-3"><button onclick="fetchLiveRate()" class="text-[10px] bg-gray-100 text-gray-500 px-3 py-1 rounded-full hover:bg-blue-100 hover:text-blue-500 transition font-bold"><i class="fas fa-sync-alt mr-1" id="rate-loading"></i> 更新匯率</button></div>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-3xl border-2 border-gray-100 flex items-center shadow-sm group focus-within:border-blue-300 transition"><div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 font-black text-xs mr-3">₩</div><div class="flex-1"><label class="text-[10px] text-gray-400 font-bold block">KOREAN WON</label><input type="number" id="krw-input" class="w-full bg-transparent text-2xl font-black text-gray-700 focus:outline-none" placeholder="0"></div></div>
+                    <div class="flex justify-center text-gray-300"><i class="fas fa-arrow-down fa-bounce"></i></div>
+                    <div class="bg-blue-50 p-4 rounded-3xl border-2 border-blue-100 flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center text-blue-600 font-black text-xs mr-3">NT$</div><div class="flex-1"><label class="text-[10px] text-blue-400 font-bold block">TAIWAN DOLLAR</label><input type="text" id="twd-input" class="w-full bg-transparent text-2xl font-black text-blue-600 focus:outline-none" placeholder="0" readonly></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl border-t border-white/50 pb-[env(safe-area-inset-bottom)] pt-2 z-50 rounded-t-[2rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+        <div class="grid grid-cols-5 h-20 max-w-2xl mx-auto px-2">
+            <button onclick="switchMainTab('schedule')" id="tab-schedule" class="bottom-nav-item active flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-map-marked-alt text-xl"></i></div><span class="text-[9px] font-black tracking-wide">行程</span></button>
+            <button onclick="switchMainTab('checklist')" id="tab-checklist" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-check-square text-xl"></i></div><span class="text-[9px] font-black tracking-wide">清單</span></button>
+            <button onclick="switchMainTab('notes')" id="tab-notes" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-book-open text-xl"></i></div><span class="text-[9px] font-black tracking-wide">住宿</span></button>
+            <button onclick="switchMainTab('finance')" id="tab-finance" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-won-sign text-xl"></i></div><span class="text-[9px] font-black tracking-wide">記帳</span></button>
+            <button onclick="switchMainTab('tools')" id="tab-tools" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-exchange-alt text-xl"></i></div><span class="text-[9px] font-black tracking-wide">匯率</span></button>
+        </div>
+    </nav>
 
     <script>
-        function switchPage(pageId, btnElement) { document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); document.getElementById('page-' + pageId).classList.add('active'); document.querySelectorAll('.nav-card').forEach(el => el.classList.remove('active')); btnElement.classList.add('active'); if(pageId === 'finance' || pageId === 'tools') { window.scrollTo({ top: 0, behavior: 'smooth' }); } }
-
-        // ================= Google Sheets 記帳串接 =================
-        // 【重要】請填入您的 Web App URL
+        let currentDayId = 'day1';
+        let currentMainTab = 'schedule';
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzwwmWwscax_gOnacisB-VZfZvu4FzTtSyqGQmOTOao2Cc342DBWOGMMdXmoR7oY2X4/exec'; 
-        
-        const form = document.getElementById('expense-form'); const btnText = document.getElementById('btn-text'); const btnLoading = document.getElementById('btn-loading'); const messageArea = document.getElementById('message-area');
-        
+
+        function switchMainTab(tabId) {
+            currentMainTab = tabId;
+            document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            
+            const daySelector = document.getElementById('day-selector');
+            if (tabId === 'schedule') {
+                document.getElementById('page-' + currentDayId).classList.add('active');
+                daySelector.classList.remove('hidden', 'opacity-0', 'h-0');
+                daySelector.classList.add('flex', 'opacity-100');
+            } else {
+                document.getElementById('page-' + tabId).classList.add('active');
+                daySelector.classList.remove('flex', 'opacity-100');
+                daySelector.classList.add('hidden', 'opacity-0', 'h-0');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchDay(dayId, btnElement) {
+            currentDayId = dayId;
+            if (currentMainTab !== 'schedule') switchMainTab('schedule');
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('page-' + dayId).classList.add('active');
+            document.querySelectorAll('.nav-card').forEach(el => el.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            else document.querySelector(`.nav-card[data-day="${dayId}"]`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ================= Fetch Data =================
+        function fetchData() {
+            if(scriptURL === '' || scriptURL === 'YOUR_NEW_GOOGLE_SCRIPT_URL') {
+                document.querySelectorAll('[id^="container-day"]').forEach(el => {
+                    el.innerHTML = '<div class="text-center text-gray-400 font-bold py-10">請設定 Google Script URL</div>';
+                });
+                renderChecklist([]); 
+                return;
+            }
+
+            fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                if(data.itinerary) renderItinerary(data.itinerary);
+                if(data.checklist) renderChecklist(data.checklist);
+            })
+            .catch(err => { console.error('Fetch error:', err); });
+        }
+
+        function renderItinerary(data) {
+             ['day1', 'day2', 'day3', 'day4', 'day5'].forEach(day => {
+                const container = document.getElementById(`container-${day}`);
+                if(container) container.innerHTML = '';
+            });
+
+            const groupedData = {};
+            data.forEach(item => {
+                if (!groupedData[item.Day]) groupedData[item.Day] = [];
+                groupedData[item.Day].push(item);
+            });
+
+            Object.keys(groupedData).forEach(day => {
+                const container = document.getElementById(`container-${day}`);
+                if(!container) return;
+                
+                const headerData = groupedData[day].find(i => i.Type === 'header');
+                const headerHtml = headerData ? `
+                    <h2 class="text-2xl font-black text-candy-dark mb-8 flex items-center pl-2 relative">
+                        <span class="absolute -left-1 w-1 h-8 bg-gradient-to-b from-candy-purple to-candy-pink rounded-full"></span>
+                        ${headerData.Title}
+                        <i class="fas fa-crown text-candy-yellow ml-2 text-xl absolute -top-4 -left-2 rotate-[-20deg]"></i>
+                    </h2>
+                ` : '';
+
+                const itemsHtml = groupedData[day]
+                    .filter(i => i.Type !== 'header')
+                    .map(item => renderItem(item))
+                    .join('');
+
+                container.innerHTML = headerHtml + `<div class="">${itemsHtml}</div>`;
+            });
+        }
+
+        // ★★★ V15 關鍵更新：強化版時間格式修正 ★★★
+        // 無論 Excel 傳來的是 "1899-12-30T12:20:00.000Z"、"2025-12-12T12:20..."、"12:20:00" 還是 "12:20"
+        // 這個函式都會盡力把它變回乾淨的 "HH:mm"
+        function formatTimeDisplay(val) {
+            if (!val) return "";
+            const str = val.toString();
+
+            // 狀況 1: 它是完整的 ISO 時間字串 (包含 T, Z 或 1899)
+            if (str.includes('T') || str.includes('GMT') || str.includes('1899')) {
+                const date = new Date(str);
+                if (!isNaN(date.getTime())) {
+                    // 這裡要注意：如果直接用 date.getHours() 會抓到使用者的本地時區
+                    // 但通常旅遊 APP 的使用者就在當地，或者我們只想要顯示數字
+                    // 比較安全的方法是直接切字串，避免時區轉換造成的 +/- 8小時誤差
+                    
+                    // 嘗試抓取 T 後面的時間部分
+                    let timePart = str.split('T')[1]; 
+                    if (timePart) {
+                        return timePart.substring(0, 5); // 取前5碼 (HH:mm)
+                    }
+                }
+            }
+
+            // 狀況 2: 它是 "12:20:00" 這種有秒數的格式
+            // 正則表達式：檢查是否為 HH:mm:ss
+            if (str.match(/^\d{1,2}:\d{2}:\d{2}$/)) {
+                return str.substring(0, 5);
+            }
+
+            // 狀況 3: 它是 "12:20" 或 "45min" 這種純文字
+            return str;
+        }
+
+        function renderItem(item) {
+            const linkHtml = item.Link ? ` <a href="${item.Link}" target="_blank" class="map-link"><i class="fas fa-location-dot ml-1 text-xs"></i></a>` : '';
+            const noteHtml = item.Note ? `<div class="bg-gray-50 px-2 py-1 rounded-lg text-[10px] font-bold text-gray-500 mt-2 inline-flex items-center border border-gray-100"><i class="fas fa-sticky-note mr-1 text-candy-yellow"></i>${item.Note}</div>` : '';
+            
+            // 使用強化版的時間處理函式
+            const displayTime = formatTimeDisplay(item.Time);
+
+            let iconClass = "bg-gray-200 text-gray-500"; 
+            let iconContent = '<i class="fas fa-map-pin"></i>';
+
+            const t = item.Type ? item.Type.toLowerCase().trim() : 'spot';
+            if (t === 'transit') {
+                return `
+                    <div class="transit-info group">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-lg text-candy-blue shadow-sm mr-3 group-hover:scale-110 transition"><i class="fas fa-bus"></i></div>
+                        <div class="flex-1">
+                            <span class="font-black block text-gray-700 text-sm">${item.Title}</span>
+                            <div class="flex justify-between text-xs mt-1 font-bold text-blue-400">
+                                <span class="bg-white/60 px-2 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i>${displayTime}</span>
+                                <span>${item.Subtitle}</span>
+                            </div>
+                            ${noteHtml}
+                        </div>
+                    </div>
+                `;
+            } else if (t === 'food') {
+                iconClass = "bg-orange-100 text-orange-500 border-orange-200";
+                iconContent = '<i class="fas fa-utensils"></i>';
+            } else if (t === 'shop') {
+                iconClass = "bg-candy-blue text-blue-500 border-blue-200";
+                iconContent = '<i class="fas fa-shopping-bag"></i>';
+            } else if (t === 'stay') {
+                iconClass = "bg-candy-purple text-purple-500 border-purple-200";
+                iconContent = '<i class="fas fa-bed"></i>';
+            } else if (t === 'plane') {
+                iconClass = "bg-candy-blue text-blue-500 border-blue-200";
+                iconContent = '<i class="fas fa-plane"></i>';
+            } else {
+                iconClass = "bg-candy-yellow text-orange-500 border-orange-200";
+                iconContent = '<i class="fas fa-camera"></i>';
+            }
+
+            return `
+                <div class="timeline-item">
+                    <div class="time-bubble">${displayTime}</div>
+                    <div class="timeline-dot ${iconClass} border-2 w-9 h-9 flex items-center justify-center rounded-full shadow-sm text-sm z-10">
+                        ${iconContent}
+                    </div>
+                    <div class="flex flex-col pt-1">
+                        <span class="font-black text-base text-gray-700 leading-tight">
+                            ${item.Title} ${linkHtml}
+                        </span>
+                        ${item.Subtitle ? `<span class="text-xs text-gray-400 font-bold mt-0.5">${item.Subtitle}</span>` : ''}
+                        ${noteHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ... (Checklist, Expense, Weather, Rate Logic remain the same as V14)
+        function renderChecklist(excelItems) {
+            const excelContainer = document.getElementById('checklist-excel-container');
+            const customContainer = document.getElementById('checklist-custom-container');
+            const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
+            const savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
+            if (excelItems.length === 0) excelContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">無 Excel 資料</div>';
+            else excelContainer.innerHTML = excelItems.map(item => createCheckItemHTML(item, savedChecks[item], false)).join('');
+            if (savedCustomItems.length === 0) customContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">尚未新增項目</div>';
+            else customContainer.innerHTML = savedCustomItems.map(item => createCheckItemHTML(item, savedChecks[item], true)).join('');
+        }
+        function createCheckItemHTML(item, isChecked, isCustom) {
+            const checkedClass = isChecked ? 'checked' : '';
+            const deleteBtn = isCustom ? `<button onclick="deleteCustomItem('${item}')" class="ml-2 text-gray-300 hover:text-red-400 p-2"><i class="fas fa-times"></i></button>` : '';
+            return `<div class="check-item ${checkedClass} flex items-center p-3 cursor-pointer hover:border-candy-mint shadow-sm"><div class="flex-1 flex items-center" onclick="toggleCheck('${item}')"><div class="mr-3 text-xl flex-shrink-0 transition-transform active:scale-90"><i class="far fa-square text-gray-200 rounded-md"></i><i class="fas fa-check-square text-candy-mint text-xl shadow-green-100 drop-shadow-sm"></i></div><span class="font-bold text-gray-600 text-sm select-none">${item}</span></div>${deleteBtn}</div>`;
+        }
+        function toggleCheck(item) {
+            const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
+            savedChecks[item] = !savedChecks[item];
+            localStorage.setItem('seoulChecklist', JSON.stringify(savedChecks));
+            const spans = document.querySelectorAll('.check-item span');
+            spans.forEach(span => { if (span.textContent === item) { const parent = span.closest('.check-item'); if(savedChecks[item]) parent.classList.add('checked'); else parent.classList.remove('checked'); }});
+        }
+        function addCustomItem() {
+            const input = document.getElementById('new-item-input');
+            const val = input.value.trim();
+            if (!val) return;
+            const savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
+            if (!savedCustomItems.includes(val)) { savedCustomItems.push(val); localStorage.setItem('seoulCustomItems', JSON.stringify(savedCustomItems)); location.reload(); }
+            input.value = '';
+        }
+        function deleteCustomItem(item) {
+            if(!confirm(`確定刪除「${item}」嗎？`)) return;
+            let savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
+            savedCustomItems = savedCustomItems.filter(i => i !== item);
+            localStorage.setItem('seoulCustomItems', JSON.stringify(savedCustomItems));
+            const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
+            delete savedChecks[item];
+            localStorage.setItem('seoulChecklist', JSON.stringify(savedChecks));
+            location.reload();
+        }
+        function resetChecklist() { if(confirm('重置所有勾選狀態？')) { localStorage.removeItem('seoulChecklist'); location.reload(); } }
+
+        function updateExpensePreview() {
+            const krw = document.getElementById('cost').value;
+            const rate = document.getElementById('rate-input').value || 42.5;
+            const previewDiv = document.getElementById('expense-twd-preview');
+            const previewAmount = document.getElementById('preview-amount');
+            if (krw && krw > 0) { const twd = Math.round(krw / rate); previewAmount.textContent = twd.toLocaleString(); previewDiv.classList.remove('hidden'); } else { previewDiv.classList.add('hidden'); }
+        }
+        const form = document.getElementById('expense-form');
+        const messageArea = document.getElementById('message-area');
         form.addEventListener('submit', e => {
             e.preventDefault();
-            if (scriptURL === '') { showMessage('請先在程式碼中設定 Google Script URL！', 'error'); return; }
-            btnText.style.display = 'none'; btnLoading.style.display = 'inline'; form.querySelector('button[type="submit"]').disabled = true;
-
-            const currentRate = rateInput.value || 42.5;
-            const calculatedTwd = Math.round(document.getElementById('cost').value / currentRate);
-
-            const data = { item: document.getElementById('item').value, cost: document.getElementById('cost').value, costTwd: calculatedTwd, payer: document.querySelector('input[name="payer"]:checked').value, note: document.getElementById('note').value };
-            
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data), mode: 'no-cors', headers: { 'Content-Type': 'application/json' } })
-            .then(response => { 
-                showMessage('🎉 記帳成功！', 'success'); 
-                form.reset(); 
-                document.querySelector('input[name="payer"][value="公費"]').checked = true; 
-                document.getElementById('calculated-twd-display').classList.add('hidden'); 
-            })
-            .catch(error => { 
-                showMessage('😥 發生錯誤，請稍後再試。', 'error'); 
-                console.error('Error!', error.message); 
-            })
-            .finally(() => { 
-                btnText.style.display = 'inline'; btnLoading.style.display = 'none'; form.querySelector('button[type="submit"]').disabled = false; 
-            });
+            if (scriptURL === '' || scriptURL === 'YOUR_NEW_GOOGLE_SCRIPT_URL') { showMessage('請設定 Script URL', 'error'); return; }
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'; btn.disabled = true;
+            const currentRate = document.getElementById('rate-input').value || 42.5;
+            const krwCost = document.getElementById('cost').value;
+            const data = { item: document.getElementById('item').value, cost: krwCost, costTwd: Math.round(krwCost / currentRate), rate: currentRate, payer: document.querySelector('input[name="payer"]:checked').value };
+            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data), mode: 'no-cors', headers: { 'Content-Type': 'application/json' } }).then(() => { showMessage('🎉 記帳成功！', 'success'); form.reset(); document.getElementById('expense-twd-preview').classList.add('hidden'); }).catch(() => showMessage('😥 錯誤', 'error')).finally(() => { btn.innerHTML = originalText; btn.disabled = false; });
         });
+        function showMessage(msg, type) { messageArea.innerHTML = msg; messageArea.className = `p-4 rounded-xl text-center text-sm font-bold transition-all shadow-sm border transform scale-100 ${type === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`; messageArea.classList.remove('hidden'); setTimeout(() => { messageArea.classList.add('hidden'); }, 3000); }
 
-        function showMessage(msg, type) { messageArea.innerHTML = msg; messageArea.classList.remove('hidden', 'scale-95', 'bg-milk-100', 'text-milk-700', 'bg-red-50', 'text-red-700', 'border-milk-300', 'border-red-300'); void messageArea.offsetWidth; if (type === 'success') { messageArea.classList.add('bg-milk-100', 'text-milk-700', 'border-milk-300', 'scale-100'); } else { messageArea.classList.add('bg-red-50', 'text-red-700', 'border-red-300', 'scale-100'); } messageArea.classList.remove('hidden'); setTimeout(() => { messageArea.classList.remove('scale-100'); messageArea.classList.add('scale-95'); setTimeout(() => { messageArea.classList.add('hidden'); }, 300); }, 3000); }
-
-        // ================= 匯率計算邏輯 (包含即時更新) =================
         const krwInput = document.getElementById('krw-input'); const twdInput = document.getElementById('twd-input'); const rateInput = document.getElementById('rate-input');
-        const costInput = document.getElementById('cost'); const twdDisplayArea = document.getElementById('calculated-twd-display'); const twdAmountSpan = document.getElementById('twd-amount'); const rateLoadingIcon = document.getElementById('rate-loading');
+        function calculateExchange() { const rate = rateInput.value || 42.5; if(krwInput.value) twdInput.value = Math.round(krwInput.value / rate).toLocaleString(); else twdInput.value = ''; updateExpensePreview(); }
+        krwInput.addEventListener('input', calculateExchange); rateInput.addEventListener('change', calculateExchange);
+        function fetchLiveRate() { document.getElementById('rate-loading').classList.add('fa-spin'); fetch('https://api.exchangerate-api.com/v4/latest/TWD').then(r => r.json()).then(d => { if (d.rates.KRW) { rateInput.value = d.rates.KRW.toFixed(2); calculateExchange(); showMessage('匯率更新', 'success'); } }).finally(() => document.getElementById('rate-loading').classList.remove('fa-spin')); }
 
-        function calculateExchange(sourceKrw, targetTwd) { const rate = rateInput.value || 42.5; const krw = sourceKrw.value; if(krw && rate && krw > 0) { const twd = Math.round(krw / rate); targetTwd.textContent = twd.toLocaleString(); if(targetTwd.tagName === 'INPUT') targetTwd.value = twd.toLocaleString(); return true; } else { if(targetTwd.tagName === 'INPUT') targetTwd.value = ''; return false; } }
-        
-        krwInput.addEventListener('input', () => calculateExchange(krwInput, twdInput));
-        rateInput.addEventListener('change', () => { calculateExchange(krwInput, twdInput); if(costInput.value > 0) calculateExchange(costInput, twdAmountSpan); });
-        costInput.addEventListener('input', function() { const hasValue = calculateExchange(this, twdAmountSpan); if(hasValue) { twdDisplayArea.classList.remove('hidden'); } else { twdDisplayArea.classList.add('hidden'); } });
+        function fetchWeather() { const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo&forecast_days=5'; fetch(apiUrl).then(r => r.json()).then(data => { for (let i = 0; i < 5; i++) { const dayNum = i + 1; const code = data.daily.weather_code[i]; const min = Math.round(data.daily.temperature_2m_min[i]); const max = Math.round(data.daily.temperature_2m_max[i]); const iconEl = document.getElementById(`weather-icon-day${dayNum}`); const textEl = document.getElementById(`weather-text-day${dayNum}`); const adviceEl = document.getElementById(`weather-advice-day${dayNum}`); if(iconEl && textEl) { iconEl.innerHTML = getWeatherIcon(code); textEl.innerHTML = `${min}°C ~ ${max}°C | ${getWeatherDesc(code)}`; } if(adviceEl) { adviceEl.innerText = getWeatherAdvice(code, min, max); } } }); }
+        function getWeatherAdvice(code, min, max) { let advice = []; if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(code)) { advice.push("☔ 帶雨具"); } else if ([71, 73, 75, 77, 85, 86].includes(code)) { advice.push("❄️ 下雪了"); } if (max <= 5) { advice.push("🧣 極凍!帶暖暖包"); } else if (max <= 10) { advice.push("🧥 穿大衣"); } return advice.join(" | "); }
+        function getWeatherIcon(code) { if (code === 0) return '☀️'; if (code >= 1 && code <= 3) return '⛅'; if (code >= 51) return '🌧️'; if (code >= 71) return '❄️'; return '☁️'; }
+        function getWeatherDesc(code) { if (code === 0) return '晴朗'; if (code >= 1 && code <= 3) return '多雲'; if (code >= 71) return '下雪'; if (code >= 51) return '有雨'; return '陰天'; }
 
-        // 抓取即時匯率
-        function fetchLiveRate() {
-            rateLoadingIcon.classList.add('fa-spin');
-            fetch('https://api.exchangerate-api.com/v4/latest/TWD')
-                .then(response => response.json())
-                .then(data => {
-                    const krwRate = data.rates.KRW;
-                    if (krwRate) {
-                        // 將匯率取到小數點後第二位
-                        rateInput.value = krwRate.toFixed(2);
-                        // 觸發重新計算
-                        calculateExchange(krwInput, twdInput);
-                        if(costInput.value > 0) calculateExchange(costInput, twdAmountSpan);
-                        showMessage('匯率更新成功！', 'success');
-                    } else {
-                         showMessage('抓取失敗，使用預設值。', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching rate:', error);
-                    showMessage('網路錯誤，請稍後再試。', 'error');
-                })
-                .finally(() => {
-                    rateLoadingIcon.classList.remove('fa-spin');
-                });
-        }
-        // 頁面載入時自動抓取一次
-        document.addEventListener('DOMContentLoaded', fetchLiveRate);
+        document.addEventListener('DOMContentLoaded', () => {
+             fetchLiveRate();
+             fetchWeather();
+             fetchData(); 
+        });
     </script>
 </body>
 </html>
