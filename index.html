@@ -39,6 +39,10 @@
         }
     </script>
     <style>
+        html, body {
+            height: 100%;
+            overflow-x: hidden; /* 防止左右滑動 */
+        }
         body { 
             background-color: #FFF9F0; 
             color: #6B5B95;
@@ -47,6 +51,8 @@
                 radial-gradient(#FF9AA2 2px, transparent 2px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
+            /* 移除原本的 body padding，改用內部的 Spacer */
+            padding-bottom: 0;
         }
         body::after {
             content: "";
@@ -133,9 +139,7 @@
         #flash-card-modal { transition: opacity 0.3s ease; }
         #flash-card-modal.hidden { pointer-events: none; opacity: 0; }
         
-        /* 解決底部被擋住的關鍵 CSS */
-        padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
-        body { padding-bottom: calc(12rem + env(safe-area-inset-bottom)); }
+        padding-top: env(safe-area-inset-top); 
     </style>
 </head>
 <body class="min-h-screen">
@@ -160,18 +164,35 @@
     <!-- Main Content -->
     <div class="p-4 md:p-6 max-w-2xl mx-auto min-h-[60vh]">
         
-        <!-- Day 1-5 (行程內容，維持 V15 邏輯) -->
+        <!-- 動態行程區 (Dynamic Itinerary from Google Sheet) -->
         <div id="page-day1" class="page-section active space-y-5">
             <div id="weather-card-day1" class="card-sticker p-4 bg-gradient-to-r from-orange-50 to-white flex justify-between items-center relative overflow-hidden">
-                <div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day1">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 1 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day1">載入中...</p><div class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day1"></div></div></div>
-                <i class="fas fa-sun absolute -right-6 -bottom-6 text-9xl text-orange-100 opacity-60 rotate-12"></i>
+                <div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day1"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-orange/80">Day 1 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day1">...</p><p class="text-[10px] text-autumn-orange font-bold mt-1" id="weather-advice-day1"></p></div></div>
             </div>
-            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90"></div>
+            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90">
+                <div class="space-y-6 animate-pulse"><div class="h-8 bg-gray-100 rounded-full w-2/3"></div><div class="h-20 bg-gray-50 rounded-2xl"></div><div class="h-20 bg-gray-50 rounded-2xl"></div></div>
+            </div>
         </div>
-        <div id="page-day2" class="page-section space-y-5"><div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day2">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 2 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day2">...</p><div class="bg-yellow-100 text-yellow-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day2"></div></div></div></div><div id="container-day2" class="card-sticker p-6 relative bg-white/90"></div></div>
-        <div id="page-day3" class="page-section space-y-5"><div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day3">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 3 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day3">...</p><div class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day3"></div></div></div></div><div id="container-day3" class="card-sticker p-6 relative bg-white/90"></div></div>
-        <div id="page-day4" class="page-section space-y-5"><div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day4">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 4 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day4">...</p><div class="bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day4"></div></div></div></div><div id="container-day4" class="card-sticker p-6 relative bg-white/90"></div></div>
-        <div id="page-day5" class="page-section space-y-5"><div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day5">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 5 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day5">...</p><div class="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day5"></div></div></div></div><div id="container-day5" class="card-sticker p-6 relative bg-white/90"></div></div>
+
+        <div id="page-day2" class="page-section space-y-5">
+            <div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day2"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-yellow/80">Day 2 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day2">...</p><p class="text-[10px] text-autumn-yellow/90 font-bold mt-1" id="weather-advice-day2"></p></div></div></div>
+            <div id="container-day2" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <div id="page-day3" class="page-section space-y-5">
+            <div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day3"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-green/80">Day 3 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day3">...</p><p class="text-[10px] text-autumn-green font-bold mt-1" id="weather-advice-day3"></p></div></div></div>
+            <div id="container-day3" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <div id="page-day4" class="page-section space-y-5">
+            <div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day4"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-pink/80">Day 4 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day4">...</p><p class="text-[10px] text-autumn-pink font-bold mt-1" id="weather-advice-day4"></p></div></div></div>
+            <div id="container-day4" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
+
+        <div id="page-day5" class="page-section space-y-5">
+            <div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day5"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-brown/80">Day 5 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day5">...</p><p class="text-[10px] text-autumn-brown font-bold mt-1" id="weather-advice-day5"></p></div></div></div>
+            <div id="container-day5" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
+        </div>
 
         <!-- Information (Formerly Notes) -->
         <div id="page-notes" class="page-section space-y-5">
@@ -188,7 +209,7 @@
                 </div>
             </div>
 
-            <!-- 2. 生存韓語字卡 (可點擊放大) -->
+            <!-- 2. 生存韓語字卡 -->
             <div class="card-sticker p-6 bg-white/95">
                 <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-green-100 w-12 h-12 flex items-center justify-center rounded-full mr-3 text-green-500 shadow-sm"><i class="fas fa-comment-dots fa-bounce"></i></span>生存韓語</h2>
                 <div class="space-y-4">
@@ -249,7 +270,7 @@
                 </div>
             </div>
 
-            <!-- 3. 住宿資訊 (可縮放 + 三大功能) -->
+            <!-- 3. 住宿資訊 -->
             <div class="card-sticker p-6 bg-white/95">
                 <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-bed"></i></span>住宿資訊</h2>
                 <div class="space-y-4">
@@ -421,6 +442,9 @@
             <button onclick="switchMainTab('tools')" id="tab-tools" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-exchange-alt text-xl"></i></div><span class="text-[9px] font-black tracking-wide">匯率</span></button>
         </div>
     </nav>
+
+    <!-- Spacer to ensure bottom content visibility -->
+    <div class="h-[300px] w-full pointer-events-none"></div>
 
     <script>
         let currentDayId = 'day1';
