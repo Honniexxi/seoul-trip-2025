@@ -7,12 +7,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Seoul Trip 2025 🇰🇷</title>
     
-    <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/96/south-korea.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/south-korea.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts: 圓體字 -->
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
 
     <script>
@@ -124,8 +123,19 @@
         input { border: 2px solid #EEE; transition: all 0.3s; border-radius: 1rem; }
         input:focus { border-color: #FFDAC1; box-shadow: 0 0 0 4px rgba(255, 218, 193, 0.3); outline: none; }
 
+        /* Accordion Style */
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
+
+        /* Full Screen Modal */
+        #flash-card-modal { transition: opacity 0.3s ease; }
+        #flash-card-modal.hidden { pointer-events: none; opacity: 0; }
+        
+        /* 解決底部被擋住的關鍵 CSS */
         padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
-        body { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); }
+        body { padding-bottom: calc(12rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
 <body class="min-h-screen">
@@ -139,104 +149,215 @@
         
         <!-- Day Selector -->
         <div id="day-selector" class="relative flex overflow-x-auto no-scrollbar gap-3 px-4 pb-2 md:justify-center transition-all duration-300">
-            <button onclick="switchDay('day1', this)" data-day="day1" class="nav-card active flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-gray-400 mb-1">12/12</span><span class="font-black text-xl day-label">D1</span>
-            </button>
-            <button onclick="switchDay('day2', this)" data-day="day2" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-gray-400 mb-1">12/13</span><span class="font-black text-xl day-label">D2</span>
-            </button>
-            <button onclick="switchDay('day3', this)" data-day="day3" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-gray-400 mb-1">12/14</span><span class="font-black text-xl day-label">D3</span>
-            </button>
-            <button onclick="switchDay('day4', this)" data-day="day4" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-gray-400 mb-1">12/15</span><span class="font-black text-xl day-label">D4</span>
-            </button>
-            <button onclick="switchDay('day5', this)" data-day="day5" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-gray-400 mb-1">12/16</span><span class="font-black text-xl day-label">D5</span>
-            </button>
+            <button onclick="switchDay('day1', this)" data-day="day1" class="nav-card active flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center"><span class="text-[10px] font-bold text-gray-400 mb-1">12/12</span><span class="font-black text-xl day-label">D1</span></button>
+            <button onclick="switchDay('day2', this)" data-day="day2" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center"><span class="text-[10px] font-bold text-gray-400 mb-1">12/13</span><span class="font-black text-xl day-label">D2</span></button>
+            <button onclick="switchDay('day3', this)" data-day="day3" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center"><span class="text-[10px] font-bold text-gray-400 mb-1">12/14</span><span class="font-black text-xl day-label">D3</span></button>
+            <button onclick="switchDay('day4', this)" data-day="day4" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center"><span class="text-[10px] font-bold text-gray-400 mb-1">12/15</span><span class="font-black text-xl day-label">D4</span></button>
+            <button onclick="switchDay('day5', this)" data-day="day5" class="nav-card flex-shrink-0 w-16 h-20 flex flex-col items-center justify-center"><span class="text-[10px] font-bold text-gray-400 mb-1">12/16</span><span class="font-black text-xl day-label">D5</span></button>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="p-4 md:p-6 max-w-2xl mx-auto min-h-[60vh]">
         
-        <!-- Day 1 -->
+        <!-- Day 1-5 (行程內容，維持 V15 邏輯) -->
         <div id="page-day1" class="page-section active space-y-5">
             <div id="weather-card-day1" class="card-sticker p-4 bg-gradient-to-r from-orange-50 to-white flex justify-between items-center relative overflow-hidden">
                 <div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day1">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 1 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day1">載入中...</p><div class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day1"></div></div></div>
                 <i class="fas fa-sun absolute -right-6 -bottom-6 text-9xl text-orange-100 opacity-60 rotate-12"></i>
             </div>
-            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90">
-                <div class="space-y-6 animate-pulse"><div class="h-8 bg-gray-100 rounded-full w-2/3"></div><div class="h-20 bg-gray-50 rounded-2xl"></div><div class="h-20 bg-gray-50 rounded-2xl"></div></div>
-            </div>
+            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90"></div>
         </div>
+        <div id="page-day2" class="page-section space-y-5"><div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day2">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 2 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day2">...</p><div class="bg-yellow-100 text-yellow-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day2"></div></div></div></div><div id="container-day2" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day3" class="page-section space-y-5"><div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day3">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 3 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day3">...</p><div class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day3"></div></div></div></div><div id="container-day3" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day4" class="page-section space-y-5"><div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day4">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 4 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day4">...</p><div class="bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day4"></div></div></div></div><div id="container-day4" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day5" class="page-section space-y-5"><div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day5">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 5 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day5">...</p><div class="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day5"></div></div></div></div><div id="container-day5" class="card-sticker p-6 relative bg-white/90"></div></div>
 
-        <!-- Day 2 -->
-        <div id="page-day2" class="page-section space-y-5">
-            <div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day2">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 2 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day2">...</p><div class="bg-yellow-100 text-yellow-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day2"></div></div></div></div>
-            <div id="container-day2" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <!-- Day 3 -->
-        <div id="page-day3" class="page-section space-y-5">
-            <div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day3">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 3 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day3">...</p><div class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day3"></div></div></div></div>
-            <div id="container-day3" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <!-- Day 4 -->
-        <div id="page-day4" class="page-section space-y-5">
-            <div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day4">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 4 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day4">...</p><div class="bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day4"></div></div></div></div>
-            <div id="container-day4" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <!-- Day 5 -->
-        <div id="page-day5" class="page-section space-y-5">
-            <div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day5">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 5 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day5">...</p><div class="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day5"></div></div></div></div>
-            <div id="container-day5" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <!-- Notes -->
+        <!-- Information (Formerly Notes) -->
         <div id="page-notes" class="page-section space-y-5">
-            <div class="card-sticker p-6 bg-white/95">
-                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-star fa-shake"></i></span>住宿與提醒</h2>
-                <div class="space-y-4 text-gray-600 font-bold text-sm">
-                    <div class="bg-white p-5 rounded-2xl border-2 border-candy-yellow shadow-sm relative overflow-hidden group hover:shadow-md transition">
-                        <div class="absolute top-0 right-0 bg-candy-yellow text-orange-600 text-[10px] px-3 py-1 rounded-bl-xl font-black">住宿 A</div>
-                        <h3 class="font-black text-lg mb-3 text-gray-800 flex items-center"><i class="fas fa-bed mr-2 text-orange-400"></i> 弘大奧森小屋</h3>
-                        <p class="select-all bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs mb-2 text-gray-500"><i class="fas fa-map-pin mr-1"></i> Room203, 82-7, World cup buk-ro 6-gil</p>
-                        <div class="flex gap-2">
-                            <div class="bg-orange-50 flex-1 p-2 rounded-xl text-center border border-orange-100"><span class="block text-[10px] text-orange-400 mb-1">大門</span><span class="font-black text-lg select-all text-gray-700">0001*</span></div>
-                            <div class="bg-orange-50 flex-1 p-2 rounded-xl text-center border border-orange-100"><span class="block text-[10px] text-orange-400 mb-1">203房</span><span class="font-black text-lg select-all text-gray-700">0667*</span></div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-2xl border-2 border-candy-pink shadow-sm relative overflow-hidden hover:shadow-md transition">
-                        <div class="absolute top-0 right-0 bg-candy-pink text-white text-[10px] px-3 py-1 rounded-bl-xl font-black">住宿 B</div>
-                        <h3 class="font-black text-lg mb-3 text-gray-800 flex items-center"><i class="fas fa-hotel mr-2 text-candy-pink"></i> 弘大那比青年旅館</h3>
-                        <p class="select-all bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i> 서울 마포구 양화로 177-1</p>
-                    </div>
+            
+            <!-- 1. SES 快速通關情報 -->
+            <div class="card-sticker p-5 bg-gradient-to-br from-blue-50 to-white border-l-4 border-l-blue-400 relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 text-9xl text-blue-500 -mr-4 -mt-4 rotate-12"><i class="fas fa-passport"></i></div>
+                <h3 class="text-lg font-black text-blue-600 mb-2 flex items-center"><i class="fas fa-bolt mr-2 text-yellow-400"></i>台灣旅客專屬福利！</h3>
+                <div class="text-sm text-gray-600 font-bold leading-relaxed relative z-10">
+                    <p class="mb-2">仁川機場 <span class="text-blue-500 bg-blue-100 px-1 rounded">T2 第二航廈</span> 入關審查處新開了 6 個專門為台灣開的 <span class="text-candy-dark underline decoration-wavy decoration-candy-pink">SES 櫃檯</span>。</p>
+                    <p class="text-xs bg-white/60 p-2 rounded-lg border border-blue-100 text-gray-500">
+                        <i class="fas fa-camera mr-1"></i> 按指紋 + 拍照 <i class="fas fa-arrow-right mx-1 text-xs"></i> 獲得貼紙 <i class="fas fa-arrow-right mx-1 text-xs"></i> <strong class="text-blue-500">直接走自動通關！</strong>
+                    </p>
                 </div>
             </div>
+
+            <!-- 2. 生存韓語字卡 (可點擊放大) -->
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-green-100 w-12 h-12 flex items-center justify-center rounded-full mr-3 text-green-500 shadow-sm"><i class="fas fa-comment-dots fa-bounce"></i></span>生存韓語</h2>
+                <div class="space-y-4">
+                    
+                    <!-- 餐廳系列 -->
+                    <details class="group bg-white border-2 border-orange-100 rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
+                        <summary class="flex items-center justify-between p-4 cursor-pointer bg-orange-50/50 hover:bg-orange-50 transition">
+                            <div class="flex items-center">
+                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-utensils"></i></span>
+                                <span class="font-black text-gray-700">餐廳點餐</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-orange-300 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-orange-100 bg-white grid grid-cols-2 gap-3">
+                            <button onclick="showFlashCard('請給我菜單', '메뉴판 좀 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">請給我菜單</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">메뉴판...</span>
+                            </button>
+                            <button onclick="showFlashCard('我要點這個', '이거 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">我要點這個</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">이거 주세요</span>
+                            </button>
+                            <button onclick="showFlashCard('不要太辣', '덜 맵게 해주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">不要太辣</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">덜 맵게...</span>
+                            </button>
+                            <button onclick="showFlashCard('我要結帳', '계산해 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">我要結帳</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">계산해 주세요</span>
+                            </button>
+                        </div>
+                    </details>
+
+                    <!-- 購物與交通 -->
+                    <details class="group bg-white border-2 border-blue-100 rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
+                        <summary class="flex items-center justify-between p-4 cursor-pointer bg-blue-50/50 hover:bg-blue-50 transition">
+                            <div class="flex items-center">
+                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shadow-sm mr-3 text-lg"><i class="fas fa-shopping-bag"></i></span>
+                                <span class="font-black text-gray-700">購物 & 交通</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-blue-300 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-blue-100 bg-white grid grid-cols-2 gap-3">
+                            <button onclick="showFlashCard('可以刷卡嗎?', '카드 결제 되나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">可以刷卡嗎?</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">카드 되나요?</span>
+                            </button>
+                            <button onclick="showFlashCard('請問有這個嗎?', '이거 있나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1">請問有這個嗎?</span>
+                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">이거 있나요?</span>
+                            </button>
+                            <button onclick="showFlashCard('請載我去這裡', '기사님, 여기로 가주세요')" class="col-span-2 bg-yellow-50 hover:bg-yellow-100 border border-yellow-100 p-3 rounded-xl text-center transition group/btn">
+                                <span class="block text-xs text-gray-400 mb-1"><i class="fas fa-taxi mr-1"></i>給司機看</span>
+                                <span class="block text-lg font-black text-gray-800 group-hover/btn:text-yellow-600">請載我去這裡</span>
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- 3. 住宿資訊 (可縮放 + 三大功能) -->
+            <div class="card-sticker p-6 bg-white/95">
+                <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-bed"></i></span>住宿資訊</h2>
+                <div class="space-y-4">
+                    
+                    <!-- 住宿 A: 奧森小屋 -->
+                    <details class="group bg-white border-2 border-candy-yellow rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
+                        <summary class="flex items-center justify-between p-4 cursor-pointer bg-orange-50/50 hover:bg-orange-50 transition">
+                            <div class="flex items-center">
+                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-home"></i></span>
+                                <div>
+                                    <h3 class="font-black text-gray-700">弘大奧森小屋</h3>
+                                    <span class="text-[10px] text-gray-400 font-bold">Awesome House</span>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down text-orange-300 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-4 pt-0 border-t border-orange-100 bg-white">
+                            <!-- 操作按鈕 -->
+                            <div class="flex gap-2 my-3">
+                                <a href="https://map.naver.com/v5/search/서울시 마포구 월드컵북로6길 82-7" target="_blank" class="flex-1 bg-green-500 text-white py-2 rounded-xl text-xs font-black text-center shadow-sm hover:bg-green-600 transition flex items-center justify-center"><i class="fas fa-map-marked-alt mr-1"></i> 地圖</a>
+                                <button onclick="copyText('서울시 마포구 월드컵북로6길 82-7, 203호')" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-xl text-xs font-black hover:bg-gray-200 transition"><i class="fas fa-copy mr-1"></i> 複製地址</button>
+                                <button onclick="showFlashCard('弘大奧森小屋', '서울시 마포구 월드컵북로6길 82-7, 203호')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
+                            </div>
+                            <!-- 詳細資訊 -->
+                            <div class="text-xs text-gray-500 space-y-2 font-bold bg-gray-50 p-3 rounded-xl">
+                                <p><i class="fas fa-map-pin mr-2 text-orange-400 w-4"></i> Room203, 82-7, World cup buk-ro 6-gil</p>
+                                <p><i class="fas fa-key mr-2 text-orange-400 w-4"></i> 大門密碼: <span class="font-black text-gray-800 bg-yellow-100 px-1 rounded select-all">0001*</span></p>
+                                <p><i class="fas fa-door-closed mr-2 text-orange-400 w-4"></i> 房門密碼: <span class="font-black text-gray-800 bg-yellow-100 px-1 rounded select-all">0667*</span></p>
+                                <p><i class="fas fa-phone mr-2 text-orange-400 w-4"></i> Host: 010-6570-0332</p>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- 住宿 B: 那比青年旅館 -->
+                    <details class="group bg-white border-2 border-candy-pink rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
+                        <summary class="flex items-center justify-between p-4 cursor-pointer bg-pink-50/50 hover:bg-pink-50 transition">
+                            <div class="flex items-center">
+                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-pink-400 shadow-sm mr-3 text-lg"><i class="fas fa-hotel"></i></span>
+                                <div>
+                                    <h3 class="font-black text-gray-700">弘大那比青年旅館</h3>
+                                    <span class="text-[10px] text-gray-400 font-bold">Nabi Hostel</span>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down text-pink-300 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-4 pt-0 border-t border-pink-100 bg-white">
+                            <!-- 操作按鈕 -->
+                            <div class="flex gap-2 my-3">
+                                <a href="https://map.naver.com/v5/search/서울 마포구 양화로 177-1" target="_blank" class="flex-1 bg-green-500 text-white py-2 rounded-xl text-xs font-black text-center shadow-sm hover:bg-green-600 transition flex items-center justify-center"><i class="fas fa-map-marked-alt mr-1"></i> 地圖</a>
+                                <button onclick="copyText('서울 마포구 양화로 177-1')" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-xl text-xs font-black hover:bg-gray-200 transition"><i class="fas fa-copy mr-1"></i> 複製地址</button>
+                                <button onclick="showFlashCard('弘大那比青年旅館', '서울 마포구 양화로 177-1')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
+                            </div>
+                            <!-- 詳細資訊 -->
+                            <div class="text-xs text-gray-500 space-y-2 font-bold bg-gray-50 p-3 rounded-xl">
+                                <p><i class="fas fa-map-marker-alt mr-2 text-pink-400 w-4"></i> 서울 마포구 양화로 177-1</p>
+                                <p><i class="fas fa-phone-alt mr-2 text-pink-400 w-4"></i> 02-3142-8889</p>
+                            </div>
+                        </div>
+                    </details>
+
+                </div>
+            </div>
+
+            <!-- 4. 緊急救援 -->
+            <div class="card-sticker p-6 bg-red-50 border-2 border-red-100 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-8xl text-red-200 opacity-20 rotate-12"><i class="fas fa-ambulance"></i></div>
+                <h2 class="text-xl font-black text-red-600 mb-4 flex items-center"><i class="fas fa-exclamation-triangle mr-2"></i> 緊急救援</h2>
+                <div class="grid grid-cols-3 gap-3">
+                    <a href="tel:112" class="bg-white border border-red-200 p-3 rounded-xl flex flex-col items-center justify-center hover:bg-red-600 hover:text-white transition group shadow-sm">
+                        <i class="fas fa-user-shield text-2xl text-red-500 mb-1 group-hover:text-white"></i>
+                        <span class="text-xs font-black">警察 112</span>
+                    </a>
+                    <a href="tel:119" class="bg-white border border-red-200 p-3 rounded-xl flex flex-col items-center justify-center hover:bg-red-600 hover:text-white transition group shadow-sm">
+                        <i class="fas fa-first-aid text-2xl text-red-500 mb-1 group-hover:text-white"></i>
+                        <span class="text-xs font-black">救護 119</span>
+                    </a>
+                    <a href="tel:01090802761" class="bg-white border border-red-200 p-3 rounded-xl flex flex-col items-center justify-center hover:bg-red-600 hover:text-white transition group shadow-sm">
+                        <i class="fas fa-phone-volume text-2xl text-red-500 mb-1 group-hover:text-white"></i>
+                        <span class="text-xs font-black">駐韓代表</span>
+                    </a>
+                </div>
+                <p class="text-[10px] text-red-400 mt-2 text-center font-bold">駐韓代表處緊急電話：010-9080-2761</p>
+            </div>
         </div>
 
-        <!-- Checklist -->
+        <!-- Checklist Content -->
         <div id="page-checklist" class="page-section space-y-5">
             <div class="card-sticker p-6 bg-white/95">
                 <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-mint w-12 h-12 flex items-center justify-center rounded-full mr-3 text-green-600 shadow-sm"><i class="fas fa-backpack fa-bounce"></i></span>必備清單</h2>
+                
                 <div class="flex gap-2 mb-6 p-1 bg-white rounded-2xl border-2 border-candy-mint shadow-sm">
                     <input type="text" id="new-item-input" placeholder="還有什麼要帶的？" class="flex-1 p-3 bg-transparent border-none text-sm font-bold text-gray-700 focus:ring-0">
                     <button onclick="addCustomItem()" class="bg-candy-mint text-green-700 w-10 h-10 rounded-xl flex items-center justify-center hover:bg-green-200 transition shadow-md m-1"><i class="fas fa-plus"></i></button>
                 </div>
+
                 <div class="mb-3 flex items-center"><span class="bg-candy-blue text-blue-600 text-[10px] font-black px-2 py-1 rounded mr-2">PUBLIC</span> <span class="text-xs font-bold text-gray-400">大家都要帶 (Excel)</span></div>
                 <div id="checklist-excel-container" class="space-y-2 mb-6"></div>
+
                 <div class="mb-3 flex items-center justify-between"><div class="flex items-center"><span class="bg-candy-purple text-purple-600 text-[10px] font-black px-2 py-1 rounded mr-2">PRIVATE</span> <span class="text-xs font-bold text-gray-400">我的專屬</span></div><i class="fas fa-lock text-gray-300 text-xs"></i></div>
                 <div id="checklist-custom-container" class="space-y-2"></div>
+                
                 <div class="flex justify-center mt-8">
                     <button onclick="resetChecklist()" class="text-xs text-gray-400 font-bold hover:text-red-400 transition bg-gray-50 px-4 py-2 rounded-full border border-gray-200"><i class="fas fa-trash-restore mr-1"></i> 重置打勾</button>
                 </div>
             </div>
         </div>
 
-        <!-- Finance -->
+        <!-- Finance Content -->
         <div id="page-finance" class="page-section space-y-5">
             <div class="card-sticker p-6 bg-white/95">
                 <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-piggy-bank fa-bounce"></i></span>記帳小幫手</h2>
@@ -273,12 +394,29 @@
         </div>
     </div>
 
+    <!-- Flash Card Modal (Generic for Taxi & Phrases) -->
+    <div id="flash-card-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4" onclick="closeFlashCard()">
+        <div class="bg-white w-full max-w-sm rounded-[2rem] p-8 text-center relative shadow-2xl transform transition-all scale-100" onclick="event.stopPropagation()">
+            <button onclick="closeFlashCard()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl"><i class="fas fa-times-circle"></i></button>
+            
+            <div id="flash-card-icon" class="bg-yellow-400 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl shadow-md"><i class="fas fa-comment"></i></div>
+            
+            <h3 id="flash-card-title" class="text-lg font-bold text-gray-400 mb-2">標題</h3>
+            
+            <div class="bg-gray-50 border-4 border-gray-100 rounded-3xl p-6 mb-6">
+                <p id="flash-card-korean" class="text-3xl font-black text-gray-800 leading-snug break-keep select-all">韓文內容</p>
+            </div>
+            
+            <p class="text-xs text-gray-400 animate-pulse">請將此畫面出示給對方看</p>
+        </div>
+    </div>
+
     <!-- Bottom Nav -->
     <nav class="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl border-t border-white/50 pb-[env(safe-area-inset-bottom)] pt-2 z-50 rounded-t-[2rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
         <div class="grid grid-cols-5 h-20 max-w-2xl mx-auto px-2">
             <button onclick="switchMainTab('schedule')" id="tab-schedule" class="bottom-nav-item active flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-map-marked-alt text-xl"></i></div><span class="text-[9px] font-black tracking-wide">行程</span></button>
             <button onclick="switchMainTab('checklist')" id="tab-checklist" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-check-square text-xl"></i></div><span class="text-[9px] font-black tracking-wide">清單</span></button>
-            <button onclick="switchMainTab('notes')" id="tab-notes" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-book-open text-xl"></i></div><span class="text-[9px] font-black tracking-wide">住宿</span></button>
+            <button onclick="switchMainTab('notes')" id="tab-notes" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-info-circle text-xl"></i></div><span class="text-[9px] font-black tracking-wide">資訊</span></button>
             <button onclick="switchMainTab('finance')" id="tab-finance" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-won-sign text-xl"></i></div><span class="text-[9px] font-black tracking-wide">記帳</span></button>
             <button onclick="switchMainTab('tools')" id="tab-tools" class="bottom-nav-item flex flex-col items-center justify-center group w-full"><div class="icon-box w-12 h-12 rounded-2xl flex items-center justify-center mb-1 transition-all duration-300 bg-transparent text-gray-300 group-hover:text-gray-400"><i class="fas fa-exchange-alt text-xl"></i></div><span class="text-[9px] font-black tracking-wide">匯率</span></button>
         </div>
@@ -319,7 +457,47 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ================= Fetch Data =================
+        // Helper Functions for Info Page
+        function copyText(text) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy"); 
+            document.body.removeChild(tempInput);
+            alert("已複製：" + text);
+        }
+
+        function showFlashCard(title, koreanText) {
+            document.getElementById('flash-card-title').textContent = title;
+            document.getElementById('flash-card-korean').textContent = koreanText;
+            
+            // Set Icon based on title content keywords
+            const iconEl = document.getElementById('flash-card-icon');
+            if(title.includes('車') || title.includes('司機')) iconEl.innerHTML = '<i class="fas fa-taxi"></i>';
+            else if(title.includes('吃') || title.includes('菜單') || title.includes('辣')) iconEl.innerHTML = '<i class="fas fa-utensils"></i>';
+            else if(title.includes('買') || title.includes('刷卡') || title.includes('有這個')) iconEl.innerHTML = '<i class="fas fa-shopping-bag"></i>';
+            else iconEl.innerHTML = '<i class="fas fa-comment"></i>';
+
+            const modal = document.getElementById('flash-card-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+        
+        // Alias for compatibility with V16 calls
+        function showTaxiCard(name, addr) {
+            showFlashCard('請載我到這裡', '기사님, 여기로 가주세요.\n(' + addr + ')');
+        }
+
+        function closeFlashCard() {
+            const modal = document.getElementById('flash-card-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+        // Alias
+        function closeTaxiCard() { closeFlashCard(); }
+
+        // Existing Fetch Data (Itinerary + Checklist)
         function fetchData() {
             if(scriptURL === '' || scriptURL === 'YOUR_NEW_GOOGLE_SCRIPT_URL') {
                 document.querySelectorAll('[id^="container-day"]').forEach(el => {
@@ -372,36 +550,21 @@
             });
         }
 
-        // ★★★ V15 關鍵更新：強化版時間格式修正 ★★★
-        // 無論 Excel 傳來的是 "1899-12-30T12:20:00.000Z"、"2025-12-12T12:20..."、"12:20:00" 還是 "12:20"
-        // 這個函式都會盡力把它變回乾淨的 "HH:mm"
         function formatTimeDisplay(val) {
             if (!val) return "";
             const str = val.toString();
-
-            // 狀況 1: 它是完整的 ISO 時間字串 (包含 T, Z 或 1899)
             if (str.includes('T') || str.includes('GMT') || str.includes('1899')) {
                 const date = new Date(str);
                 if (!isNaN(date.getTime())) {
-                    // 這裡要注意：如果直接用 date.getHours() 會抓到使用者的本地時區
-                    // 但通常旅遊 APP 的使用者就在當地，或者我們只想要顯示數字
-                    // 比較安全的方法是直接切字串，避免時區轉換造成的 +/- 8小時誤差
-                    
-                    // 嘗試抓取 T 後面的時間部分
                     let timePart = str.split('T')[1]; 
                     if (timePart) {
-                        return timePart.substring(0, 5); // 取前5碼 (HH:mm)
+                        return timePart.substring(0, 5); 
                     }
                 }
             }
-
-            // 狀況 2: 它是 "12:20:00" 這種有秒數的格式
-            // 正則表達式：檢查是否為 HH:mm:ss
             if (str.match(/^\d{1,2}:\d{2}:\d{2}$/)) {
                 return str.substring(0, 5);
             }
-
-            // 狀況 3: 它是 "12:20" 或 "45min" 這種純文字
             return str;
         }
 
@@ -409,7 +572,6 @@
             const linkHtml = item.Link ? ` <a href="${item.Link}" target="_blank" class="map-link"><i class="fas fa-location-dot ml-1 text-xs"></i></a>` : '';
             const noteHtml = item.Note ? `<div class="bg-gray-50 px-2 py-1 rounded-lg text-[10px] font-bold text-gray-500 mt-2 inline-flex items-center border border-gray-100"><i class="fas fa-sticky-note mr-1 text-candy-yellow"></i>${item.Note}</div>` : '';
             
-            // 使用強化版的時間處理函式
             const displayTime = formatTimeDisplay(item.Time);
 
             let iconClass = "bg-gray-200 text-gray-500"; 
@@ -464,56 +626,107 @@
             `;
         }
 
-        // ... (Checklist, Expense, Weather, Rate Logic remain the same as V14)
+        // ================= Checklist Logic =================
         function renderChecklist(excelItems) {
             const excelContainer = document.getElementById('checklist-excel-container');
             const customContainer = document.getElementById('checklist-custom-container');
             const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
             const savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
-            if (excelItems.length === 0) excelContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">無 Excel 資料</div>';
-            else excelContainer.innerHTML = excelItems.map(item => createCheckItemHTML(item, savedChecks[item], false)).join('');
-            if (savedCustomItems.length === 0) customContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">尚未新增項目</div>';
-            else customContainer.innerHTML = savedCustomItems.map(item => createCheckItemHTML(item, savedChecks[item], true)).join('');
+            
+            if (excelItems.length === 0) {
+                excelContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">無 Excel 資料</div>';
+            } else {
+                excelContainer.innerHTML = excelItems.map(item => createCheckItemHTML(item, savedChecks[item], false)).join('');
+            }
+
+            if (savedCustomItems.length === 0) {
+                customContainer.innerHTML = '<div class="text-center text-gray-300 text-xs py-2">尚未新增項目</div>';
+            } else {
+                customContainer.innerHTML = savedCustomItems.map(item => createCheckItemHTML(item, savedChecks[item], true)).join('');
+            }
         }
+
         function createCheckItemHTML(item, isChecked, isCustom) {
             const checkedClass = isChecked ? 'checked' : '';
             const deleteBtn = isCustom ? `<button onclick="deleteCustomItem('${item}')" class="ml-2 text-gray-300 hover:text-red-400 p-2"><i class="fas fa-times"></i></button>` : '';
-            return `<div class="check-item ${checkedClass} flex items-center p-3 cursor-pointer hover:border-candy-mint shadow-sm"><div class="flex-1 flex items-center" onclick="toggleCheck('${item}')"><div class="mr-3 text-xl flex-shrink-0 transition-transform active:scale-90"><i class="far fa-square text-gray-200 rounded-md"></i><i class="fas fa-check-square text-candy-mint text-xl shadow-green-100 drop-shadow-sm"></i></div><span class="font-bold text-gray-600 text-sm select-none">${item}</span></div>${deleteBtn}</div>`;
+            
+            return `
+                <div class="check-item ${checkedClass} flex items-center p-3 cursor-pointer hover:border-candy-mint shadow-sm mb-2">
+                    <div class="flex-1 flex items-center" onclick="toggleCheck('${item}')">
+                        <div class="mr-3 text-xl flex-shrink-0 transition-transform active:scale-90">
+                            <i class="far fa-square text-gray-200 rounded-md"></i>
+                            <i class="fas fa-check-square text-candy-mint text-xl shadow-green-100 drop-shadow-sm"></i>
+                        </div>
+                        <span class="font-bold text-gray-600 text-sm select-none">${item}</span>
+                    </div>
+                    ${deleteBtn}
+                </div>
+            `;
         }
+
         function toggleCheck(item) {
             const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
             savedChecks[item] = !savedChecks[item];
             localStorage.setItem('seoulChecklist', JSON.stringify(savedChecks));
+            
             const spans = document.querySelectorAll('.check-item span');
-            spans.forEach(span => { if (span.textContent === item) { const parent = span.closest('.check-item'); if(savedChecks[item]) parent.classList.add('checked'); else parent.classList.remove('checked'); }});
+            spans.forEach(span => {
+                if (span.textContent === item) {
+                    const parent = span.closest('.check-item');
+                    if(savedChecks[item]) parent.classList.add('checked');
+                    else parent.classList.remove('checked');
+                }
+            });
         }
+
         function addCustomItem() {
             const input = document.getElementById('new-item-input');
             const val = input.value.trim();
             if (!val) return;
+
             const savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
-            if (!savedCustomItems.includes(val)) { savedCustomItems.push(val); localStorage.setItem('seoulCustomItems', JSON.stringify(savedCustomItems)); location.reload(); }
+            if (!savedCustomItems.includes(val)) {
+                savedCustomItems.push(val);
+                localStorage.setItem('seoulCustomItems', JSON.stringify(savedCustomItems));
+                location.reload(); 
+            }
             input.value = '';
         }
+
         function deleteCustomItem(item) {
             if(!confirm(`確定刪除「${item}」嗎？`)) return;
             let savedCustomItems = JSON.parse(localStorage.getItem('seoulCustomItems')) || [];
             savedCustomItems = savedCustomItems.filter(i => i !== item);
             localStorage.setItem('seoulCustomItems', JSON.stringify(savedCustomItems));
+            
             const savedChecks = JSON.parse(localStorage.getItem('seoulChecklist')) || {};
             delete savedChecks[item];
             localStorage.setItem('seoulChecklist', JSON.stringify(savedChecks));
             location.reload();
         }
-        function resetChecklist() { if(confirm('重置所有勾選狀態？')) { localStorage.removeItem('seoulChecklist'); location.reload(); } }
+
+        function resetChecklist() {
+            if(confirm('重置所有勾選狀態？')) {
+                localStorage.removeItem('seoulChecklist');
+                location.reload();
+            }
+        }
 
         function updateExpensePreview() {
             const krw = document.getElementById('cost').value;
             const rate = document.getElementById('rate-input').value || 42.5;
             const previewDiv = document.getElementById('expense-twd-preview');
             const previewAmount = document.getElementById('preview-amount');
-            if (krw && krw > 0) { const twd = Math.round(krw / rate); previewAmount.textContent = twd.toLocaleString(); previewDiv.classList.remove('hidden'); } else { previewDiv.classList.add('hidden'); }
+
+            if (krw && krw > 0) {
+                const twd = Math.round(krw / rate);
+                previewAmount.textContent = twd.toLocaleString();
+                previewDiv.classList.remove('hidden');
+            } else {
+                previewDiv.classList.add('hidden');
+            }
         }
+
         const form = document.getElementById('expense-form');
         const messageArea = document.getElementById('message-area');
         form.addEventListener('submit', e => {
@@ -522,22 +735,102 @@
             const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'; btn.disabled = true;
+            
             const currentRate = document.getElementById('rate-input').value || 42.5;
             const krwCost = document.getElementById('cost').value;
-            const data = { item: document.getElementById('item').value, cost: krwCost, costTwd: Math.round(krwCost / currentRate), rate: currentRate, payer: document.querySelector('input[name="payer"]:checked').value };
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data), mode: 'no-cors', headers: { 'Content-Type': 'application/json' } }).then(() => { showMessage('🎉 記帳成功！', 'success'); form.reset(); document.getElementById('expense-twd-preview').classList.add('hidden'); }).catch(() => showMessage('😥 錯誤', 'error')).finally(() => { btn.innerHTML = originalText; btn.disabled = false; });
+            
+            const data = { 
+                item: document.getElementById('item').value, 
+                cost: krwCost, 
+                costTwd: Math.round(krwCost / currentRate), 
+                rate: currentRate,
+                payer: document.querySelector('input[name="payer"]:checked').value 
+            };
+            
+            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data), mode: 'no-cors', headers: { 'Content-Type': 'application/json' } })
+            .then(() => { showMessage('🎉 記帳成功！', 'success'); form.reset(); document.getElementById('expense-twd-preview').classList.add('hidden'); })
+            .catch(() => showMessage('😥 錯誤', 'error'))
+            .finally(() => { btn.innerHTML = originalText; btn.disabled = false; });
         });
-        function showMessage(msg, type) { messageArea.innerHTML = msg; messageArea.className = `p-4 rounded-xl text-center text-sm font-bold transition-all shadow-sm border transform scale-100 ${type === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`; messageArea.classList.remove('hidden'); setTimeout(() => { messageArea.classList.add('hidden'); }, 3000); }
 
-        const krwInput = document.getElementById('krw-input'); const twdInput = document.getElementById('twd-input'); const rateInput = document.getElementById('rate-input');
-        function calculateExchange() { const rate = rateInput.value || 42.5; if(krwInput.value) twdInput.value = Math.round(krwInput.value / rate).toLocaleString(); else twdInput.value = ''; updateExpensePreview(); }
-        krwInput.addEventListener('input', calculateExchange); rateInput.addEventListener('change', calculateExchange);
-        function fetchLiveRate() { document.getElementById('rate-loading').classList.add('fa-spin'); fetch('https://api.exchangerate-api.com/v4/latest/TWD').then(r => r.json()).then(d => { if (d.rates.KRW) { rateInput.value = d.rates.KRW.toFixed(2); calculateExchange(); showMessage('匯率更新', 'success'); } }).finally(() => document.getElementById('rate-loading').classList.remove('fa-spin')); }
+        function showMessage(msg, type) { 
+            messageArea.innerHTML = msg; 
+            messageArea.className = `p-4 rounded-xl text-center text-sm font-bold transition-all shadow-sm border transform scale-100 ${type === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`;
+            messageArea.classList.remove('hidden');
+            setTimeout(() => { messageArea.classList.add('hidden'); }, 3000); 
+        }
 
-        function fetchWeather() { const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo&forecast_days=5'; fetch(apiUrl).then(r => r.json()).then(data => { for (let i = 0; i < 5; i++) { const dayNum = i + 1; const code = data.daily.weather_code[i]; const min = Math.round(data.daily.temperature_2m_min[i]); const max = Math.round(data.daily.temperature_2m_max[i]); const iconEl = document.getElementById(`weather-icon-day${dayNum}`); const textEl = document.getElementById(`weather-text-day${dayNum}`); const adviceEl = document.getElementById(`weather-advice-day${dayNum}`); if(iconEl && textEl) { iconEl.innerHTML = getWeatherIcon(code); textEl.innerHTML = `${min}°C ~ ${max}°C | ${getWeatherDesc(code)}`; } if(adviceEl) { adviceEl.innerText = getWeatherAdvice(code, min, max); } } }); }
-        function getWeatherAdvice(code, min, max) { let advice = []; if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(code)) { advice.push("☔ 帶雨具"); } else if ([71, 73, 75, 77, 85, 86].includes(code)) { advice.push("❄️ 下雪了"); } if (max <= 5) { advice.push("🧣 極凍!帶暖暖包"); } else if (max <= 10) { advice.push("🧥 穿大衣"); } return advice.join(" | "); }
-        function getWeatherIcon(code) { if (code === 0) return '☀️'; if (code >= 1 && code <= 3) return '⛅'; if (code >= 51) return '🌧️'; if (code >= 71) return '❄️'; return '☁️'; }
-        function getWeatherDesc(code) { if (code === 0) return '晴朗'; if (code >= 1 && code <= 3) return '多雲'; if (code >= 71) return '下雪'; if (code >= 51) return '有雨'; return '陰天'; }
+        const krwInput = document.getElementById('krw-input'); 
+        const twdInput = document.getElementById('twd-input'); 
+        const rateInput = document.getElementById('rate-input');
+        function calculateExchange() { 
+            const rate = rateInput.value || 42.5; 
+            if(krwInput.value) twdInput.value = Math.round(krwInput.value / rate).toLocaleString();
+            else twdInput.value = '';
+            updateExpensePreview();
+        }
+        krwInput.addEventListener('input', calculateExchange);
+        rateInput.addEventListener('change', calculateExchange);
+        function fetchLiveRate() {
+            document.getElementById('rate-loading').classList.add('fa-spin');
+            fetch('https://api.exchangerate-api.com/v4/latest/TWD').then(r => r.json()).then(d => { 
+                if (d.rates.KRW) { rateInput.value = d.rates.KRW.toFixed(2); calculateExchange(); showMessage('匯率更新', 'success'); } 
+            }).finally(() => document.getElementById('rate-loading').classList.remove('fa-spin'));
+        }
+
+        function fetchWeather() {
+            const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo&forecast_days=5';
+            fetch(apiUrl).then(r => r.json()).then(data => {
+                for (let i = 0; i < 5; i++) {
+                    const dayNum = i + 1;
+                    const code = data.daily.weather_code[i];
+                    const min = Math.round(data.daily.temperature_2m_min[i]);
+                    const max = Math.round(data.daily.temperature_2m_max[i]);
+                    
+                    const iconEl = document.getElementById(`weather-icon-day${dayNum}`);
+                    const textEl = document.getElementById(`weather-text-day${dayNum}`);
+                    const adviceEl = document.getElementById(`weather-advice-day${dayNum}`);
+                    
+                    if(iconEl && textEl) {
+                        iconEl.innerHTML = getWeatherIcon(code);
+                        textEl.innerHTML = `${min}°C ~ ${max}°C | ${getWeatherDesc(code)}`;
+                    }
+                    if(adviceEl) {
+                        adviceEl.innerText = getWeatherAdvice(code, min, max);
+                    }
+                }
+            });
+        }
+        
+        function getWeatherAdvice(code, min, max) {
+            let advice = [];
+            if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(code)) {
+                advice.push("☔ 帶雨具");
+            } else if ([71, 73, 75, 77, 85, 86].includes(code)) {
+                advice.push("❄️ 下雪了");
+            }
+            if (max <= 5) {
+                advice.push("🧣 極凍!帶暖暖包");
+            } else if (max <= 10) {
+                advice.push("🧥 穿大衣");
+            } 
+            return advice.join(" | ");
+        }
+
+        function getWeatherIcon(code) {
+            if (code === 0) return '☀️'; 
+            if (code >= 1 && code <= 3) return '⛅'; 
+            if (code >= 51) return '🌧️'; 
+            if (code >= 71) return '❄️';
+            return '☁️';
+        }
+        function getWeatherDesc(code) {
+            if (code === 0) return '晴朗';
+            if (code >= 1 && code <= 3) return '多雲';
+            if (code >= 71) return '下雪';
+            if (code >= 51) return '有雨';
+            return '陰天';
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
              fetchLiveRate();
