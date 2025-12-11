@@ -140,6 +140,7 @@
         #flash-card-modal.hidden { pointer-events: none; opacity: 0; }
         
         padding-top: env(safe-area-inset-top); 
+        body { padding-bottom: calc(12rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
 <body class="min-h-screen">
@@ -164,39 +165,54 @@
     <!-- Main Content -->
     <div class="p-4 md:p-6 max-w-2xl mx-auto min-h-[60vh]">
         
-        <!-- 動態行程區 (Dynamic Itinerary from Google Sheet) -->
+        <!-- Day 1-5 (行程內容，維持 V15 邏輯) -->
         <div id="page-day1" class="page-section active space-y-5">
             <div id="weather-card-day1" class="card-sticker p-4 bg-gradient-to-r from-orange-50 to-white flex justify-between items-center relative overflow-hidden">
-                <div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day1"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-orange/80">Day 1 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day1">...</p><p class="text-[10px] text-autumn-orange font-bold mt-1" id="weather-advice-day1"></p></div></div>
+                <div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day1">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 1 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day1">載入中...</p><div class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day1"></div></div></div>
+                <i class="fas fa-sun absolute -right-6 -bottom-6 text-9xl text-orange-100 opacity-60 rotate-12"></i>
             </div>
-            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90">
-                <div class="space-y-6 animate-pulse"><div class="h-8 bg-gray-100 rounded-full w-2/3"></div><div class="h-20 bg-gray-50 rounded-2xl"></div><div class="h-20 bg-gray-50 rounded-2xl"></div></div>
-            </div>
+            <div id="container-day1" class="card-sticker p-6 relative overflow-hidden bg-white/90"></div>
         </div>
-
-        <div id="page-day2" class="page-section space-y-5">
-            <div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day2"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-yellow/80">Day 2 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day2">...</p><p class="text-[10px] text-autumn-yellow/90 font-bold mt-1" id="weather-advice-day2"></p></div></div></div>
-            <div id="container-day2" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <div id="page-day3" class="page-section space-y-5">
-            <div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day3"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-green/80">Day 3 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day3">...</p><p class="text-[10px] text-autumn-green font-bold mt-1" id="weather-advice-day3"></p></div></div></div>
-            <div id="container-day3" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <div id="page-day4" class="page-section space-y-5">
-            <div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day4"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-pink/80">Day 4 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day4">...</p><p class="text-[10px] text-autumn-pink font-bold mt-1" id="weather-advice-day4"></p></div></div></div>
-            <div id="container-day4" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
-
-        <div id="page-day5" class="page-section space-y-5">
-            <div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-3xl mr-3" id="weather-icon-day5"><i class="fas fa-spinner fa-spin"></i></span><div><p class="font-black text-autumn-brown/80">Day 5 預報</p><p class="text-xs text-milk-600 font-bold" id="weather-text-day5">...</p><p class="text-[10px] text-autumn-brown font-bold mt-1" id="weather-advice-day5"></p></div></div></div>
-            <div id="container-day5" class="card-sticker p-6 relative bg-white/90"><div class="space-y-4 animate-pulse"><div class="h-20 bg-gray-100 rounded-2xl"></div></div></div>
-        </div>
+        <div id="page-day2" class="page-section space-y-5"><div id="weather-card-day2" class="card-sticker p-4 bg-gradient-to-r from-yellow-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day2">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 2 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day2">...</p><div class="bg-yellow-100 text-yellow-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day2"></div></div></div></div><div id="container-day2" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day3" class="page-section space-y-5"><div id="weather-card-day3" class="card-sticker p-4 bg-gradient-to-r from-green-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day3">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 3 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day3">...</p><div class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day3"></div></div></div></div><div id="container-day3" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day4" class="page-section space-y-5"><div id="weather-card-day4" class="card-sticker p-4 bg-gradient-to-r from-pink-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day4">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 4 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day4">...</p><div class="bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day4"></div></div></div></div><div id="container-day4" class="card-sticker p-6 relative bg-white/90"></div></div>
+        <div id="page-day5" class="page-section space-y-5"><div id="weather-card-day5" class="card-sticker p-4 bg-gradient-to-r from-purple-50 to-white flex justify-between items-center relative"><div class="flex items-center z-10"><span class="text-4xl mr-4" id="weather-icon-day5">🌤️</span><div><p class="font-black text-gray-700 text-lg">Day 5 預報</p><p class="text-xs text-gray-500 font-bold" id="weather-text-day5">...</p><div class="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block" id="weather-advice-day5"></div></div></div></div><div id="container-day5" class="card-sticker p-6 relative bg-white/90"></div></div>
 
         <!-- Information (Formerly Notes) -->
         <div id="page-notes" class="page-section space-y-5">
             
+             <!-- 0. 機票資訊 (新增) -->
+            <div class="card-sticker p-5 bg-gradient-to-r from-sky-50 to-white border-l-4 border-l-sky-400 relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 text-9xl text-sky-500 -mr-4 -mt-4 rotate-12"><i class="fas fa-plane-departure"></i></div>
+                <h3 class="text-lg font-black text-sky-600 mb-3 flex items-center"><i class="fas fa-ticket-alt mr-2 text-yellow-400"></i>航班資訊</h3>
+                <div class="space-y-3 relative z-10">
+                    <!-- 去程 -->
+                    <div class="bg-white/80 p-3 rounded-xl border border-sky-100 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold text-sky-400 block mb-1">去程 12/12 (五)</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg font-black text-gray-700">KE2022</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">TPE <i class="fas fa-plane mx-1"></i> ICN</span>
+                        </div>
+                    </div>
+                    <!-- 回程 -->
+                    <div class="bg-white/80 p-3 rounded-xl border border-sky-100 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold text-sky-400 block mb-1">回程 12/16 (二)</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg font-black text-gray-700">KE2027</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                             <span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">ICN <i class="fas fa-plane mx-1"></i> TPE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 1. SES 快速通關情報 -->
             <div class="card-sticker p-5 bg-gradient-to-br from-blue-50 to-white border-l-4 border-l-blue-400 relative overflow-hidden">
                 <div class="absolute right-0 top-0 opacity-10 text-9xl text-blue-500 -mr-4 -mt-4 rotate-12"><i class="fas fa-passport"></i></div>
@@ -217,60 +233,33 @@
                     <!-- 餐廳系列 -->
                     <details class="group bg-white border-2 border-orange-100 rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
                         <summary class="flex items-center justify-between p-4 cursor-pointer bg-orange-50/50 hover:bg-orange-50 transition">
-                            <div class="flex items-center">
-                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-utensils"></i></span>
-                                <span class="font-black text-gray-700">餐廳點餐</span>
-                            </div>
+                            <div class="flex items-center"><span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-utensils"></i></span><span class="font-black text-gray-700">餐廳點餐</span></div>
                             <i class="fas fa-chevron-down text-orange-300 group-open:rotate-180 transition-transform"></i>
                         </summary>
                         <div class="p-4 pt-2 border-t border-orange-100 bg-white grid grid-cols-2 gap-3">
-                            <button onclick="showFlashCard('請給我菜單', '메뉴판 좀 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">請給我菜單</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">메뉴판...</span>
-                            </button>
-                            <button onclick="showFlashCard('我要點這個', '이거 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">我要點這個</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">이거 주세요</span>
-                            </button>
-                            <button onclick="showFlashCard('不要太辣', '덜 맵게 해주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">不要太辣</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">덜 맵게...</span>
-                            </button>
-                            <button onclick="showFlashCard('我要結帳', '계산해 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">我要結帳</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">계산해 주세요</span>
-                            </button>
+                            <button onclick="showFlashCard('請給我菜單', '메뉴판 좀 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">請給我菜單</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">메뉴판...</span></button>
+                            <button onclick="showFlashCard('我要點這個', '이거 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">我要點這個</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">이거 주세요</span></button>
+                            <button onclick="showFlashCard('不要太辣', '덜 맵게 해주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">不要太辣</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">덜 맵게...</span></button>
+                            <button onclick="showFlashCard('我要結帳', '계산해 주세요')" class="bg-gray-50 hover:bg-orange-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">我要結帳</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-orange-500">계산해 주세요</span></button>
                         </div>
                     </details>
 
                     <!-- 購物與交通 -->
                     <details class="group bg-white border-2 border-blue-100 rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
                         <summary class="flex items-center justify-between p-4 cursor-pointer bg-blue-50/50 hover:bg-blue-50 transition">
-                            <div class="flex items-center">
-                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shadow-sm mr-3 text-lg"><i class="fas fa-shopping-bag"></i></span>
-                                <span class="font-black text-gray-700">購物 & 交通</span>
-                            </div>
+                            <div class="flex items-center"><span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shadow-sm mr-3 text-lg"><i class="fas fa-shopping-bag"></i></span><span class="font-black text-gray-700">購物 & 交通</span></div>
                             <i class="fas fa-chevron-down text-blue-300 group-open:rotate-180 transition-transform"></i>
                         </summary>
                         <div class="p-4 pt-2 border-t border-blue-100 bg-white grid grid-cols-2 gap-3">
-                            <button onclick="showFlashCard('可以刷卡嗎?', '카드 결제 되나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">可以刷卡嗎?</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">카드 되나요?</span>
-                            </button>
-                            <button onclick="showFlashCard('請問有這個嗎?', '이거 있나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1">請問有這個嗎?</span>
-                                <span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">이거 있나요?</span>
-                            </button>
-                            <button onclick="showFlashCard('請載我去這裡', '기사님, 여기로 가주세요')" class="col-span-2 bg-yellow-50 hover:bg-yellow-100 border border-yellow-100 p-3 rounded-xl text-center transition group/btn">
-                                <span class="block text-xs text-gray-400 mb-1"><i class="fas fa-taxi mr-1"></i>給司機看</span>
-                                <span class="block text-lg font-black text-gray-800 group-hover/btn:text-yellow-600">請載我去這裡</span>
-                            </button>
+                            <button onclick="showFlashCard('可以刷卡嗎?', '카드 결제 되나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">可以刷卡嗎?</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">카드 되나요?</span></button>
+                            <button onclick="showFlashCard('請問有這個嗎?', '이거 있나요?')" class="bg-gray-50 hover:bg-blue-100 border border-gray-100 p-3 rounded-xl text-left transition group/btn"><span class="block text-xs text-gray-400 mb-1">請問有這個嗎?</span><span class="block text-sm font-black text-gray-700 group-hover/btn:text-blue-500">이거 있나요?</span></button>
+                            <button onclick="showFlashCard('請載我去這裡', '기사님, 여기로 가주세요')" class="col-span-2 bg-yellow-50 hover:bg-yellow-100 border border-yellow-100 p-3 rounded-xl text-center transition group/btn"><span class="block text-xs text-gray-400 mb-1"><i class="fas fa-taxi mr-1"></i>給司機看</span><span class="block text-lg font-black text-gray-800 group-hover/btn:text-yellow-600">請載我去這裡</span></button>
                         </div>
                     </details>
                 </div>
             </div>
 
-            <!-- 3. 住宿資訊 -->
+            <!-- 3. 住宿資訊 (可縮放 + 三大功能) -->
             <div class="card-sticker p-6 bg-white/95">
                 <h2 class="text-2xl font-black text-candy-dark mb-6 flex items-center"><span class="bg-candy-yellow w-12 h-12 flex items-center justify-center rounded-full mr-3 text-orange-500 shadow-sm"><i class="fas fa-bed"></i></span>住宿資訊</h2>
                 <div class="space-y-4">
@@ -278,23 +267,15 @@
                     <!-- 住宿 A: 奧森小屋 -->
                     <details class="group bg-white border-2 border-candy-yellow rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
                         <summary class="flex items-center justify-between p-4 cursor-pointer bg-orange-50/50 hover:bg-orange-50 transition">
-                            <div class="flex items-center">
-                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-home"></i></span>
-                                <div>
-                                    <h3 class="font-black text-gray-700">弘大奧森小屋</h3>
-                                    <span class="text-[10px] text-gray-400 font-bold">Awesome House</span>
-                                </div>
-                            </div>
+                            <div class="flex items-center"><span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-400 shadow-sm mr-3 text-lg"><i class="fas fa-home"></i></span><div><h3 class="font-black text-gray-700">弘大奧森小屋</h3><span class="text-[10px] text-gray-400 font-bold">Awesome House</span></div></div>
                             <i class="fas fa-chevron-down text-orange-300 group-open:rotate-180 transition-transform"></i>
                         </summary>
                         <div class="p-4 pt-0 border-t border-orange-100 bg-white">
-                            <!-- 操作按鈕 -->
                             <div class="flex gap-2 my-3">
                                 <a href="https://map.naver.com/v5/search/서울시 마포구 월드컵북로6길 82-7" target="_blank" class="flex-1 bg-green-500 text-white py-2 rounded-xl text-xs font-black text-center shadow-sm hover:bg-green-600 transition flex items-center justify-center"><i class="fas fa-map-marked-alt mr-1"></i> 地圖</a>
                                 <button onclick="copyText('서울시 마포구 월드컵북로6길 82-7, 203호')" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-xl text-xs font-black hover:bg-gray-200 transition"><i class="fas fa-copy mr-1"></i> 複製地址</button>
-                                <button onclick="showFlashCard('弘大奧森小屋', '서울시 마포구 월드컵북로6길 82-7, 203호')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
+                                <button onclick="showTaxiCard('弘大奧森小屋', '서울시 마포구 월드컵북로6길 82-7, 203호')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
                             </div>
-                            <!-- 詳細資訊 -->
                             <div class="text-xs text-gray-500 space-y-2 font-bold bg-gray-50 p-3 rounded-xl">
                                 <p><i class="fas fa-map-pin mr-2 text-orange-400 w-4"></i> Room203, 82-7, World cup buk-ro 6-gil</p>
                                 <p><i class="fas fa-key mr-2 text-orange-400 w-4"></i> 大門密碼: <span class="font-black text-gray-800 bg-yellow-100 px-1 rounded select-all">0001*</span></p>
@@ -307,23 +288,15 @@
                     <!-- 住宿 B: 那比青年旅館 -->
                     <details class="group bg-white border-2 border-candy-pink rounded-2xl overflow-hidden shadow-sm open:shadow-md transition-all">
                         <summary class="flex items-center justify-between p-4 cursor-pointer bg-pink-50/50 hover:bg-pink-50 transition">
-                            <div class="flex items-center">
-                                <span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-pink-400 shadow-sm mr-3 text-lg"><i class="fas fa-hotel"></i></span>
-                                <div>
-                                    <h3 class="font-black text-gray-700">弘大那比青年旅館</h3>
-                                    <span class="text-[10px] text-gray-400 font-bold">Nabi Hostel</span>
-                                </div>
-                            </div>
+                            <div class="flex items-center"><span class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-pink-400 shadow-sm mr-3 text-lg"><i class="fas fa-hotel"></i></span><div><h3 class="font-black text-gray-700">弘大那比青年旅館</h3><span class="text-[10px] text-gray-400 font-bold">Nabi Hostel</span></div></div>
                             <i class="fas fa-chevron-down text-pink-300 group-open:rotate-180 transition-transform"></i>
                         </summary>
                         <div class="p-4 pt-0 border-t border-pink-100 bg-white">
-                            <!-- 操作按鈕 -->
                             <div class="flex gap-2 my-3">
                                 <a href="https://map.naver.com/v5/search/서울 마포구 양화로 177-1" target="_blank" class="flex-1 bg-green-500 text-white py-2 rounded-xl text-xs font-black text-center shadow-sm hover:bg-green-600 transition flex items-center justify-center"><i class="fas fa-map-marked-alt mr-1"></i> 地圖</a>
                                 <button onclick="copyText('서울 마포구 양화로 177-1')" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-xl text-xs font-black hover:bg-gray-200 transition"><i class="fas fa-copy mr-1"></i> 複製地址</button>
-                                <button onclick="showFlashCard('弘大那比青年旅館', '서울 마포구 양화로 177-1')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
+                                <button onclick="showTaxiCard('弘大那比青年旅館', '서울 마포구 양화로 177-1')" class="flex-1 bg-yellow-400 text-white py-2 rounded-xl text-xs font-black hover:bg-yellow-500 transition shadow-sm"><i class="fas fa-taxi mr-1"></i> 找車</button>
                             </div>
-                            <!-- 詳細資訊 -->
                             <div class="text-xs text-gray-500 space-y-2 font-bold bg-gray-50 p-3 rounded-xl">
                                 <p><i class="fas fa-map-marker-alt mr-2 text-pink-400 w-4"></i> 서울 마포구 양화로 177-1</p>
                                 <p><i class="fas fa-phone-alt mr-2 text-pink-400 w-4"></i> 02-3142-8889</p>
@@ -431,6 +404,22 @@
             <p class="text-xs text-gray-400 animate-pulse">請將此畫面出示給對方看</p>
         </div>
     </div>
+    <!-- Taxi Modal -->
+    <div id="taxi-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-sm rounded-[2rem] p-6 text-center relative shadow-2xl transform transition-all scale-100">
+            <button onclick="closeTaxiCard()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"><i class="fas fa-times-circle"></i></button>
+            <div class="bg-yellow-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl shadow-md"><i class="fas fa-taxi"></i></div>
+            <h3 class="text-xl font-black text-gray-800 mb-1">給司機看</h3>
+            <p class="text-xs text-gray-400 font-bold mb-6">Show this to the driver</p>
+            <div class="bg-gray-50 border-2 border-gray-100 rounded-2xl p-6 mb-6">
+                <p class="text-2xl font-black text-gray-800 mb-4 leading-snug">기사님,<br>여기로 가주세요.</p>
+                <div class="h-px bg-gray-200 w-1/2 mx-auto mb-4"></div>
+                <p id="taxi-dest-name" class="text-sm font-bold text-gray-500 mb-1">目的地</p>
+                <p id="taxi-dest-addr" class="text-lg font-black text-blue-600 leading-tight select-all">地址載入中...</p>
+            </div>
+            <button onclick="closeTaxiCard()" class="bg-gray-800 text-white w-full py-4 rounded-xl font-bold hover:bg-black transition">關閉 Close</button>
+        </div>
+    </div>
 
     <!-- Bottom Nav -->
     <nav class="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl border-t border-white/50 pb-[env(safe-area-inset-bottom)] pt-2 z-50 rounded-t-[2rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
@@ -495,22 +484,22 @@
         function showFlashCard(title, koreanText) {
             document.getElementById('flash-card-title').textContent = title;
             document.getElementById('flash-card-korean').textContent = koreanText;
-            
-            // Set Icon based on title content keywords
             const iconEl = document.getElementById('flash-card-icon');
             if(title.includes('車') || title.includes('司機')) iconEl.innerHTML = '<i class="fas fa-taxi"></i>';
             else if(title.includes('吃') || title.includes('菜單') || title.includes('辣')) iconEl.innerHTML = '<i class="fas fa-utensils"></i>';
             else if(title.includes('買') || title.includes('刷卡') || title.includes('有這個')) iconEl.innerHTML = '<i class="fas fa-shopping-bag"></i>';
             else iconEl.innerHTML = '<i class="fas fa-comment"></i>';
-
             const modal = document.getElementById('flash-card-modal');
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
         }
         
-        // Alias for compatibility with V16 calls
         function showTaxiCard(name, addr) {
-            showFlashCard('請載我到這裡', '기사님, 여기로 가주세요.\n(' + addr + ')');
+            document.getElementById('taxi-dest-name').textContent = name;
+            document.getElementById('taxi-dest-addr').textContent = addr;
+            const modal = document.getElementById('taxi-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
         }
 
         function closeFlashCard() {
@@ -518,8 +507,11 @@
             modal.classList.add('opacity-0');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
-        // Alias
-        function closeTaxiCard() { closeFlashCard(); }
+        function closeTaxiCard() {
+            const modal = document.getElementById('taxi-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
 
         // Existing Fetch Data (Itinerary + Checklist)
         function fetchData() {
